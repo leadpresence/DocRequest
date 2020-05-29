@@ -59,17 +59,7 @@ class _UnAthenticatedState extends State<UnAthenticated> {
                 textAlign: TextAlign.center,
 
               ),
-              SizedBox(height: 35.0,),
-              ClipPath(
-                clipper: BottomWaveClipper(),
-
-                child: Container(
-
-                  color: Colors.deepPurple,
-                  width: 100,
-                  height: 170,
-                ),
-              )
+      
 
 
 

@@ -22,6 +22,7 @@ class Doctor {
   String currentLocation;
   String pricePerMin;
   String rating;
+  String pushToken;
 
 
   Doctor(
@@ -45,7 +46,8 @@ class Doctor {
         this.isAvailable,
         this.currentLocation,
         this.pricePerMin,
-        this.rating
+        this.rating,
+        this.pushToken
       });
 
 
@@ -71,6 +73,7 @@ class Doctor {
       isAvailable : map['isAvailable'],
       pricePerMin : map['pricePerMin'],
       rating : map['rating'],
+      pushToken : map['pushToken'],
 
     );}
 
@@ -98,6 +101,7 @@ class Doctor {
         'created_at': created_at,
         'isAvailable': isAvailable,
         'pricePerMin': pricePerMin,
+        'pushToken': pushToken,
         'rating': rating,
 
       };

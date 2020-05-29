@@ -1,7 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:mobiledoc/ui/requestDoctorsList.dart';
 import 'package:mobiledoc/ui/requestHospitalList.dart';
+import 'package:mobiledoc/ui/startup/startUp.dart';
 import 'package:mobiledoc/widgets_imports.dart';
+import 'Services/fcm_services.dart';
 import 'dependencies.dart';
 import 'ui_import.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +28,7 @@ void main() {
   ]);
 }
 class mobiledoc extends StatelessWidget {
+  FcmServices _firebaseMessaging=locator<FcmServices>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,7 @@ class mobiledoc extends StatelessWidget {
         navigatorKey: locator<RoutingService>().navigationKey,
 //        initialRoute: WalkthroughRoute,
       //go to the Authservice and check if user is still signed in
-      home:UnAthenticated(),
+      home:Startup(),
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mobiledoc/Services/authentication_services.dart';
+import 'package:mobiledoc/Services/navigation_services.dart';
 import 'package:mobiledoc/dependencies.dart';
 import 'package:mobiledoc/models/doctorModel.dart';
 import 'package:mobiledoc/ui/requestHospitalList.dart';
@@ -21,29 +23,35 @@ class MDScreen extends StatefulWidget {
 
 class _MDScreen extends State<MDScreen> {
   TextEditingController _destinationController = TextEditingController();
+  AuthenticationService _authenticationService=locator<AuthenticationService>();
+  RoutingService _routingService=locator<RoutingService>();
   final Key _requesScreenkey = UniqueKey();
   final Key _requesScaffoldkey = UniqueKey();
-
-
   List<String> docDeatils=[];
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-//    MDAppState().initialise();
-  }
 
   @override
   Widget build(BuildContext context) {
-
-    //To get the arguments from the doctors list
-//    docDeatils=ModalRoute.of(context).settings.arguments;
-//    _destinationController.text="${docDeatils[0]}";
-    Color btnColor=Colors.blueGrey;
-
     final appState = Provider.of<MDAppState>(context);
+
+    Color btnColor=Colors.blueGrey;
+    //To handle the call  payment sheet
+    void callDoctorSheet()async{
+      appState.getDoctors();
+
+      showModalBottomSheet<void>(
+
+        context: context,
+        builder: searchDoctorSheet,
+        backgroundColor:
+        Theme.of(context).scaffoldBackgroundColor,
+        isScrollControlled: true,
+        isDismissible:true,
+
+        shape: RoundedRectangleBorder(),
+      );
+    }
+
     Widget _floatingCollapsed() {
       return Container(
         height: 300,
@@ -177,8 +185,9 @@ class _MDScreen extends State<MDScreen> {
               backgroundColor: Colors.black,
                child: Icon(Icons.person_pin,color: Colors.white,size: 50,),
                onPressed: (){
-                 callDoctorSheet();
-                 appState.getDoctors();
+                 _authenticationService.currentUser.pushToken!=null
+                   ? callDoctorSheet()
+                   : _routingService.navigateTo(CompleteProfileRoute);
                },
              ),
            ),
@@ -216,20 +225,7 @@ void callRavePaymentSheet()async{
   Widget searchDoctorSheet(BuildContext context) {
     return SearchDoc();
   }
-  //To handle the call  payment sheet
-  void callDoctorSheet()async{
-    showModalBottomSheet<void>(
 
-      context: context,
-      builder: searchDoctorSheet,
-      backgroundColor:
-      Theme.of(context).scaffoldBackgroundColor,
-      isScrollControlled: true,
-        isDismissible:true,
-
-      shape: RoundedRectangleBorder(),
-    );
-  }
 
 
 void h(){

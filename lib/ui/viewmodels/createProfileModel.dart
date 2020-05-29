@@ -30,7 +30,7 @@ class CreateProfileVM extends BaseModel{
       );
     setBusy(false);
       if (authResult is bool) {
-        _navigationService.navigateTo(BankDetailsRoute);
+        _navigationService.navigateTo(MDservicesRoute);
 
 //        if (authResult) {
 //          _navigationService.navigateTo(BankDetailsRoute);

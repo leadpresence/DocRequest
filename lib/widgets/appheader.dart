@@ -1,6 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:mobiledoc/Services/authentication_services.dart';
+import 'package:mobiledoc/dependencies.dart';
 
 class AppMenu extends StatelessWidget {
+  AuthenticationService _authenticationService=
+      locator<AuthenticationService>();
+  Widget _createHeader({String text}) {
+    String _fullName= _authenticationService.currentUser.lastName+ " "+ _authenticationService.currentUser.lastName;
+    return DrawerHeader(
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        decoration: BoxDecoration(
+          color: Colors.black,
+        ),
+        child:
+        Stack(
+            children: <Widget>[
+
+          Positioned(
+            bottom: 36,
+            left: 10,
+            child: Container(
+              width: 80,
+              height: 80,
+
+              decoration:
+              ShapeDecoration(shape: CircleBorder(),
+                  color: Colors.grey[100]),
+              child: Padding(
+                padding: EdgeInsets.all(2),
+                child: CircleAvatar(
+                  radius: 90,
+                  backgroundColor:  Colors.greenAccent,
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundColor: Colors.white,
+                    backgroundImage:
+                    NetworkImage("https://www.rosemaryhomes.com/wp-content/uploads/avatar-placeholder-generic-1-300x300.jpg"),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 10,),
+
+          Positioned(
+              bottom: 12.0,
+              left: 16.0,
+              child: Text(_fullName!=null?_fullName:"...",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w500))),
+        ]));
+  }
 
   Widget body;
   Key key;
@@ -14,7 +68,7 @@ class AppMenu extends StatelessWidget {
       resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      drawer: AppDrawer(),
+      drawer: AppDrawer(header: _createHeader()),
      appBar: AppBar(title:Text(appTitle,style: TextStyle(color: Colors.white, fontSize: 16)) ,
         centerTitle: true,
         backgroundColor: Colors.black,
@@ -51,61 +105,15 @@ class AppMenu extends StatelessWidget {
   }
 
 
-  Widget _createHeader({String text}) {
-    return DrawerHeader(
-        margin: EdgeInsets.zero,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(
-          color: Colors.black,
-        ),
-        child: Stack(children: <Widget>[
 
-          Positioned(
-            bottom: 36,
-            left: 10,
-            child: Container(
-              width: 80,
-              height: 80,
-
-              decoration:
-              ShapeDecoration(shape: CircleBorder(),
-                  color: Colors.grey[100]),
-              child: Padding(
-                padding: EdgeInsets.all(2),
-                child: CircleAvatar(
-                  radius: 90,
-                  backgroundColor:  Colors.greenAccent,
-                  child: CircleAvatar(
-                      radius: 70,
-                      backgroundColor: Colors.white,
-                      backgroundImage:
-                    NetworkImage("https://www.rosemaryhomes.com/wp-content/uploads/avatar-placeholder-generic-1-300x300.jpg"),
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 10,),
-
-          Positioned(
-              bottom: 12.0,
-              left: 16.0,
-              child: Text(text,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w500))),
-        ]));
-  }
-  Widget AppDrawer(){
+  Widget AppDrawer({Widget header}){
     return Container(
-      width: 200,
+      width: 250,
       child: Drawer(
 
           child:
           ListView(children: <Widget>[
-            _createHeader(text: "Chiueze felix"),
+            header,
             _createDrawerItem(icon:Icons.phone_in_talk,text: "Your Requests",onTap: (){}),
             _createDrawerItem(icon:Icons.perm_identity,text: "Your Info",),
             _createDrawerItem(icon:Icons.payment,text: " Billings",),

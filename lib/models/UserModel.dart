@@ -23,6 +23,7 @@ class User {
     String practisingDocument;
     Timestamp created_at;
     String currentLocation;
+    String pushToken;
 
 
     User(
@@ -47,7 +48,8 @@ class User {
     this.folioNumuber,
     this.goal,
       this.created_at,
-      this.currentLocation
+      this.currentLocation,
+      this.pushToken
 
   });
 
@@ -75,6 +77,7 @@ class User {
       practisingDocument : map['practisingDocument'],
       currentLocation : map['currentlocation'],
       created_at : map['created_at'],
+      pushToken : map['pushToken'],
 
     );}
 
@@ -103,6 +106,7 @@ class User {
         'practisingDocument': practisingDocument,
         'currentLocation': currentLocation,
         'created_at': created_at,
+        'pushToken': pushToken,
       };
   }
 

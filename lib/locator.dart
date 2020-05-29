@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'Services/fcm_services.dart';
 import 'Services/navigation_services.dart';
 import 'Services/storageService.dart';
 import 'Services/firestore_services.dart';
@@ -12,6 +13,8 @@ void setupLocator(){
   locator.registerLazySingleton<AuthenticationService>(()=>AuthenticationService());
   locator.registerLazySingleton<FirestoreServiceAPI>(()=>FirestoreServiceAPI());
   locator.registerLazySingleton<RoutingService>(()=>RoutingService());
+  locator.registerLazySingleton<FcmServices>(()=>FcmServices());
+
 //  locator.registerLazySingleton(()=>StorageService());
 //  locator.registerLazySingleton(()=>DialogService());
 

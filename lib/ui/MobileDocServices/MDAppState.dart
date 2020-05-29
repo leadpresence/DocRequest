@@ -18,11 +18,11 @@ import 'package:mobiledoc/locator.dart';
 import './MDrequests.dart';
 
 class MDAppState extends BaseModel {
+
   FirestoreServiceAPI _firestoreServiceAPI = locator<FirestoreServiceAPI>();
   AuthenticationService _authenticationService =
       locator<AuthenticationService>();
 
-//  double foo=50.0;
   String doctorsLocationField = 'currentLocation';
 
   static LatLng _initialPosition;
@@ -64,7 +64,7 @@ class MDAppState extends BaseModel {
   Stream<List<DocumentSnapshot>> stream;
   var radius = BehaviorSubject<double>.seeded(1.0);
   double _distance;
-  double get distance=>_distance;
+  double get distance => _distance;
   //doctors around user stream controller
 
 //final StreamController <Stream<dynamic>> _doctreamCtrl=
@@ -91,31 +91,31 @@ class MDAppState extends BaseModel {
         placemark[0].name + " " + placemark[0].thoroughfare;
     //center for surrounding doctors
     _geoFirePoint = GeoFirePoint(position.latitude, position.longitude);
-    await setLocation();
     getDoctorsAroundMe();
     radius.add(200.0);
     notifyListeners();
   }
 
+
+  //To update client loaction to firestore
   Future setLocation() async {
-    setBusy(true);
     try {
-      await _authenticationService.isUserSignedIn()
-          ? await _firestoreServiceAPI.updateMyLocation(
-              {'currentLocation': _geoFirePoint.data}, currentUser.id)
-          : print("no user");
+          await _firestoreServiceAPI.updateMyLocation(
+              {'currentLocation': _geoFirePoint.data},
+              _authenticationService.currentUser.id);
     } catch (e) {
       return e.message;
     }
   }
 
+  //to fetch doctors around this user
   void getDoctorsAroundMe() async {
     // Create a geoFirePoint
     Geoflutterfire _geoFirePoint = Geoflutterfire();
-// Create a geoFirePoint ceterpoint
+    // Create a geoFirePoint ceterpoint
     GeoFirePoint center = _geoFirePoint.point(
         latitude: position.latitude, longitude: position.longitude);
-// get the collection reference or query
+    // get the collection reference or query
     stream = radius.switchMap((fun) {
       var collectionReference = _firestoreServiceAPI.doctorsCollectionReference;
       return _geoFirePoint
@@ -129,7 +129,6 @@ class MDAppState extends BaseModel {
   }
 
   //TO PLACE MARKERS ON THE MAP SHOWING DOCTORS LOCATION
-
   void _updateMarkers(List<DocumentSnapshot> documentList) {
     print("marker document List  ${documentList.length}");
     documentList.forEach((DocumentSnapshot document) {
@@ -143,27 +142,21 @@ class MDAppState extends BaseModel {
           position: LatLng(lat, long),
           icon: _sourceIcon,
           infoWindow: InfoWindow(
-              title: 'Magic Marker',
-              snippet: 'few kilometers from doctor')));
+              title: 'Magic Marker', snippet: 'few kilometers from doctor')));
     });
     notifyListeners();
   }
-
-
 
   //To send notification to all available doctors within a radius
   //locations from _getCloseDoctors
   void _dispatchDoctors() async {
     //TODO handle sending push notifications
-
   }
-
 
 //To handle the reciept of a  request
   void _handleRequestAcceptance() async {
     //TODO create a requisition on fire for this user
     //TODO  show polylines on the map when accepted see sendRequest()
-
   }
 
   // TO CREATE POLYLINE ROUTES on AMP
@@ -311,29 +304,26 @@ class MDAppState extends BaseModel {
     radius.close();
   }
 
-
-
-   getDistance(double clientLatitude, double clientLongitude,
-      double vendorsLatitude, double vendorsLongitude){
-
+  getDistance(double clientLatitude, double clientLongitude,
+      double vendorsLatitude, double vendorsLongitude) {
     const R = 6371e3; // metres
-    double latA = clientLatitude * math.pi/180; // φ, λ in radians
-    double latB = vendorsLatitude * math.pi/180;
-    double latSum1= (clientLatitude-vendorsLatitude) * math.pi/180;
-    double longSum2= (clientLongitude-vendorsLongitude) * math.pi/180;
+    double latA = clientLatitude * math.pi / 180; // φ, λ in radians
+    double latB = vendorsLatitude * math.pi / 180;
+    double latSum1 = (clientLatitude - vendorsLatitude) * math.pi / 180;
+    double longSum2 = (clientLongitude - vendorsLongitude) * math.pi / 180;
 
-    double  a = math.sin(latSum1/2) * math.sin(latSum1/2) +
-        math.cos(latA) * math.cos(latB) *
-            math.sin(longSum2/2) * math.sin(longSum2/2);
-    double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a));
+    double a = math.sin(latSum1 / 2) * math.sin(latSum1 / 2) +
+        math.cos(latA) *
+            math.cos(latB) *
+            math.sin(longSum2 / 2) *
+            math.sin(longSum2 / 2);
+    double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
 
     double d = (R * c); // in metres
-    double distanceKilometers = d/1000.round(); // in metres
+    double distanceKilometers = d / 1000.round(); // in metres
 
-
-    _distance=distanceKilometers;
+    _distance = distanceKilometers;
     notifyListeners();
   }
-
 }
 //destinationController changed to docSearchController

@@ -99,6 +99,20 @@ class FirestoreServiceAPI {
   }
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //to get all user documents ,this is ustilized in getting pushtoken
+//   Future<>users() {
+//   return collectionReference.getDocuments();
+//
+//  }
+
+  //to get all doctors documents ,this is ustilized in getting pushtoken
+  doctors() async{
+    return collectionReference.getDocuments();
+  }
+
+
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
   //to fetch hospital

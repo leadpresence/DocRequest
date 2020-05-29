@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "577703596400",
+    "firebase_url": "https://mobiledocapp.firebaseio.com",
+    "project_id": "mobiledocapp",
+    "storage_bucket": "mobiledocapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577703596400:android:73d47d294da5586f96ffb5",
+        "android_client_info": {
+          "package_name": "com.leadpesence.mobiledoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577703596400-f4175ojp9ocrokmpo8h4k48e56rqv918.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.leadpesence.mobiledoc",
+            "certificate_hash": "6b73b2025ad6ba751378cbfbca09a779bde46e8e"
+          }
+        },
+        {
+          "client_id": "577703596400-7oqe6ntnt63al8915dep1nkktn79o6hr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0oShlT8Q0HNxDujCDXFelf0HHrzKizpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577703596400-7oqe6ntnt63al8915dep1nkktn79o6hr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

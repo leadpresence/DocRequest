@@ -15,5 +15,4 @@ export 'ui/role.dart';
 export 'ui/RequestDocView.dart';
 export 'ui/doctorsReport.dart';
 export 'ui/MobileDocServices/MDScreen.dart';
-export 'package:mobiledoc/ui/AppRegister.dart';
 

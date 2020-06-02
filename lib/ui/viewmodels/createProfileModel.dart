@@ -23,13 +23,14 @@ class CreateProfileVM extends BaseModel{
     setBusy(true);
     var authResult = await _authenticationService.signUpWithEmail(
            email: email,
-          firstName: firstName,
-          lastName: lastName,
+           firstName: firstName,
+           lastName: lastName,
            address: address,
            phone: phone
+
       );
     setBusy(false);
-      if (authResult is bool) {
+      if (authResult is! String ) {
         _navigationService.navigateTo(MDservicesRoute);
 
 //        if (authResult) {
@@ -43,7 +44,7 @@ class CreateProfileVM extends BaseModel{
 //        }
       }
       else {
-        Fluttertoast.showToast(msg: "General Signup Failure, Please Try Again",toastLength: Toast.LENGTH_LONG,);
+        Fluttertoast.showToast(msg: "General Signup Failure, Please Try Again ${authResult.toString()}",toastLength: Toast.LENGTH_LONG,);
       }
   }
 

@@ -33,7 +33,7 @@ class Startup extends StatelessWidget {
 //              )
 
               HeartbeatProgressIndicator(
-                child: Icon(CupertinoIcons.heart,size: 80,color: Colors.white,),
+                child: Icon(CupertinoIcons.heart,size: 50,color: Colors.white,),
               ),
             ],
           ),

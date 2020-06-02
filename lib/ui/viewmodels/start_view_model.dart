@@ -12,12 +12,17 @@ class StartUpViewModel extends BaseModel{
 
    Future handleStartUp() async{
      _fcmServices.registerNotification();
+
      var hasUserLoggedIn= await _authenticationService.isUserSignedIn();
+
      if(hasUserLoggedIn){
        _routingService.navigateTo(MDservicesRoute);
+       print("has User");
+
      }
      else{
        _routingService.navigateTo(UnAuthenticatedPageRoute);
+       print("has No User");
      }
    }
 

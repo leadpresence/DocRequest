@@ -24,6 +24,7 @@ class FirestoreServiceAPI {
   static final Firestore _db=Firestore.instance;
 
   CollectionReference collectionReference=_db.collection('md_users');
+
   //hosptal collection instance
   CollectionReference hospitalCollectionReference=_db.collection('md_hospitals');
   //Doctors collection instance
@@ -37,39 +38,54 @@ class FirestoreServiceAPI {
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
   Future createUser(User user ) async {
     try {
       await collectionReference.document(user.id).setData(user.toMap(),merge: true);
     } catch (e) {
-      return e.message;
+      debugPrint("FirestoreAPI Error in creating createUser:"+e);
+      return;
     }
   }
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //get user by user_id
   Future getUserDocumentById(String id) async
   {
     User details;
-
     try{
     var userData= collectionReference.document(id).get();
     return await userData.then((doc) {
       print(User.fromMap(doc.data));
       return  details=User.fromMap(doc.data);
-
     });
-
     }catch(e){
-      return e.message;
+      return e.toString();
     }
   }
+
+  //check with boolean if a user(client) exists in users collection
+  checkDocumentById(String id) async
+  {
+    bool userExist;
+    var userData= collectionReference.document(id).get()
+        .then((docSnapshot) {
+     if (!docSnapshot.exists || docSnapshot==null) {
+       return userExist=false;
+     } else {
+       return userExist=true;
+     }
+  });
+
+      return userExist;
+  }
+
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Future<void> updateUserBankInfo( Map<String, dynamic> data, String id)async {
     await collectionReference.document(id).updateData(data);
 }
+
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -97,15 +113,22 @@ class FirestoreServiceAPI {
   Future<void> updateMyLocation(Map <String,dynamic> data , String id) {
     return collectionReference.document(id).updateData(data) ;
   }
-
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  //to get all user documents ,this is ustilized in getting pushtoken
-//   Future<>users() {
-//   return collectionReference.getDocuments();
-//
-//  }
+  //save my own token to firestore
 
-  //to get all doctors documents ,this is ustilized in getting pushtoken
+  Future<void> updateMyPushToken(Map <String,dynamic> data , String id) {
+    return collectionReference.document(id).updateData(data) ;
+  }
+
+
+  //save the tokens around me in my "docTokensAround" collection
+  Future createTokenSubCollection(Map <String,dynamic> data , String id){
+     return collectionReference.document(id).collection('docTokensAround')
+         .document("REQ"+FieldValue.serverTimestamp().toString()).setData(data) ;
+
+  }
+
+  //to get all doctors documents ,this is ustilized in getting push token
   doctors() async{
     return collectionReference.getDocuments();
   }

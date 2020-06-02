@@ -184,10 +184,19 @@ class _MDScreen extends State<MDScreen> {
 
               backgroundColor: Colors.black,
                child: Icon(Icons.person_pin,color: Colors.white,size: 50,),
-               onPressed: (){
-                 _authenticationService.currentUser.pushToken!=null
-                   ? callDoctorSheet()
-                   : _routingService.navigateTo(CompleteProfileRoute);
+               onPressed: ()async{
+                try{
+                  debugPrint("pressed request Doctor");
+                var x= await   _authenticationService.getRegisteredUser();
+                print(x.toString());
+                x==true && x!=null
+                      ? callDoctorSheet()
+                      : _routingService.navigateTo(CompleteProfileRoute);
+                }
+                catch(e){
+                  debugPrint("Error request doctor:"+e.toString());
+                }
+
                },
              ),
            ),

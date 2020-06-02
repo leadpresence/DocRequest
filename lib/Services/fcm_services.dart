@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mobiledoc/Services/authentication_services.dart';
 import 'package:mobiledoc/dependencies.dart';
 
 import '../locator.dart';
@@ -9,9 +10,12 @@ import 'navigation_services.dart';
 class FcmServices{
 
 
-  FirebaseMessaging firebaseMessaging=FirebaseMessaging();
+  FirebaseMessaging  firebaseMessaging=FirebaseMessaging();
   RoutingService _routingService =locator<RoutingService>();
-
+//  AuthenticationService _authenticationService=locator<AuthenticationService>();
+//  FirestoreServiceAPI _firestoreServiceAPI = locator<FirestoreServiceAPI>();
+  String _ktoken;
+  String get ktoken=>_ktoken;
 
   FcmServices(){registerNotification();}
 
@@ -32,23 +36,26 @@ class FcmServices{
 
       return;
     });
-//
-//    firebaseMessaging.getToken().then((token) {
-//      print('token: $token');
-//      Firestore.instance.collection('users').document(currentUserId).updateData({'pushToken': token});
-//    }).catchError((err) {
-//      Fluttertoast.showToast(msg: err.message.toString());
-//    });
+    firebaseMessaging.getToken().then((token){
+      debugPrint("DEVICE TOKEN: "+token);
+
+      this._ktoken=token;
+    });
+
   }
 
-  setPushToken(){
-          var _pushtoken;
-          var result=firebaseMessaging.getToken().then((token) {
-            _pushtoken=token;
-          });
-          debugPrint(_pushtoken);
-          print (_pushtoken);
-          return _pushtoken;
+  //save token to firebase
+  getClientPushToken(){
+//    firebaseMessaging.getToken().then((token) {
+//      debugPrint('token :'+token);
+//      return token;
+//    }).catchError((err) {
+//      debugPrint("Error getting pushtoken:"+err);
+//    });
+
+  return _ktoken;
+
+    //Todo set this also for doctors collection
   }
 
   //To set a message with a key view on click of the notification routes to the

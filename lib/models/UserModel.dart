@@ -21,8 +21,8 @@ class User {
     String folioNumuber;
     String passport;
     String practisingDocument;
-    Timestamp created_at;
-    String currentLocation;
+    var created_at;
+    var currentLocation;
     String pushToken;
 
 
@@ -84,29 +84,29 @@ class User {
   Map<String, dynamic> toMap() {
     return
       {
-        'id': id,
-        'firstName': firstName,
-        'lastName': lastName,
-        'email': email,
-        'address': address,
-        'phone': phone,
-        'role': role,
-        'photo': photo,
-        'age': age,
-        'bloodGroup': bloodGroup,
-        'gender': gender,
-        'height': height,
-        'goal': goal,
+        'id': id ?? '',
+        'firstName': firstName ?? '',
+        'lastName': lastName ?? '',
+        'email': email ?? '',
+        'address': address ?? '',
+        'phone': phone ?? '',
+        'role': role ?? '',
+        'photo': photo ?? '',
+        'age': age?? '',
+        'bloodGroup': bloodGroup ?? '',
+        'gender': gender ?? '',
+        'height': height ?? '',
+        'goal': goal ?? '',
         'weight': weight,
-        'bankName': bankName,
-        'accountNumber': accountNumber,
-        'accountName': accountName,
-        'folioNumuber': folioNumuber,
-        'passport': passport,
-        'practisingDocument': practisingDocument,
+        'bankName': bankName ?? '',
+        'accountNumber': accountNumber ?? '',
+        'accountName': accountName ?? '',
+        'folioNumuber': folioNumuber ?? '',
+        'passport': passport ?? '',
+        'practisingDocument': practisingDocument ?? '',
         'currentLocation': currentLocation,
-        'created_at': created_at,
-        'pushToken': pushToken,
+        'created_at': created_at ??'',
+        'pushToken': pushToken
       };
   }
 

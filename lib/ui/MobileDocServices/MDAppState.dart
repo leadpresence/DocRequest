@@ -24,6 +24,11 @@ class MDAppState extends BaseModel {
       locator<AuthenticationService>();
 
   String doctorsLocationField = 'currentLocation';
+  List <String> _tokenDoctorsAround;
+  List <String> get tokenDoctorsAround=>_tokenDoctorsAround;
+  List <String> _message;
+  List <String> get message=>_message;
+
 
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
@@ -50,6 +55,7 @@ class MDAppState extends BaseModel {
   Position _position = Position();
   Position get position => _position;
   GeoFirePoint _geoFirePoint;
+  GeoFirePoint get geoFirePoint=> _geoFirePoint;
   User _user = currentUser;
   //this holds the the doctors called from firebase
   List<Doctor> _doctors;
@@ -59,8 +65,8 @@ class MDAppState extends BaseModel {
   List<Doctor> _doctorSuggestion;
   List<Doctor> get doctorSuggestion => _doctorSuggestion;
 
-  StreamSubscription _doctorsStream;
-  StreamSubscription get doctorsStream => _doctorsStream;
+//  StreamSubscription _doctorsStream;
+//  StreamSubscription get doctorsStream => _doctorsStream;
   Stream<List<DocumentSnapshot>> stream;
   var radius = BehaviorSubject<double>.seeded(1.0);
   double _distance;
@@ -91,20 +97,30 @@ class MDAppState extends BaseModel {
         placemark[0].name + " " + placemark[0].thoroughfare;
     //center for surrounding doctors
     _geoFirePoint = GeoFirePoint(position.latitude, position.longitude);
+    print("GeoFirePointData "+_geoFirePoint.data['geopoint'].latitude.toString()+" "+_geoFirePoint.data['geohash'].toString());
     getDoctorsAroundMe();
     radius.add(200.0);
     notifyListeners();
   }
 
+//  setMessage(List<String> m){
+//    String msg;
+//    m.forEach((_){
+//      message.add(m);
+//    });
+//  }
 
   //To update client loaction to firestore
   Future setLocation() async {
     try {
-          await _firestoreServiceAPI.updateMyLocation(
-              {'currentLocation': _geoFirePoint.data},
+      print("GeoFire Location"+_geoFirePoint.data);
+
+      await _firestoreServiceAPI.updateMyLocation(
+              {'currentLocation': {_geoFirePoint.data}},
               _authenticationService.currentUser.id);
     } catch (e) {
-      return e.message;
+      debugPrint("FirestoreAPI Error in setLocation: "+ e);
+      return e;
     }
   }
 
@@ -112,7 +128,7 @@ class MDAppState extends BaseModel {
   void getDoctorsAroundMe() async {
     // Create a geoFirePoint
     Geoflutterfire _geoFirePoint = Geoflutterfire();
-    // Create a geoFirePoint ceterpoint
+    // Create a geoFirePoint center point
     GeoFirePoint center = _geoFirePoint.point(
         latitude: position.latitude, longitude: position.longitude);
     // get the collection reference or query
@@ -129,28 +145,34 @@ class MDAppState extends BaseModel {
   }
 
   //TO PLACE MARKERS ON THE MAP SHOWING DOCTORS LOCATION
-  void _updateMarkers(List<DocumentSnapshot> documentList) {
+  void _getDoctorsAround(List<DocumentSnapshot> documentList) {
     print("marker document List  ${documentList.length}");
     documentList.forEach((DocumentSnapshot document) {
 //      GeoPoint pos = document.data['currentLocation']['geopoint'];
       double lat = document.data['currentLocation']['geopoint'].latitude;
       double long = document.data['currentLocation']['geopoint'].longitude;
 //      double distance = document.data['distance'];
+
+  //Push the individual token into this List and send
+      String _token= document.data['pushToken'];
+        _tokenDoctorsAround.add(_token);
       _markers.add(Marker(
           markerId: MarkerId(lat.toString()),
 //        position: LatLng(pos.latitude, pos.longitude),
           position: LatLng(lat, long),
           icon: _sourceIcon,
           infoWindow: InfoWindow(
-              title: 'Magic Marker', snippet: 'few kilometers from doctor')));
+          title: 'Magic Marker', snippet: 'few kilometers from doctor')));
     });
     notifyListeners();
   }
+
 
   //To send notification to all available doctors within a radius
   //locations from _getCloseDoctors
   void _dispatchDoctors() async {
     //TODO handle sending push notifications
+
   }
 
 //To handle the reciept of a  request
@@ -251,7 +273,10 @@ class MDAppState extends BaseModel {
   void onCreated(GoogleMapController controller) {
     _mapController = controller;
     stream.listen((List<DocumentSnapshot> documentList) {
-      _updateMarkers(documentList);
+      if(documentList!=null){
+        _getDoctorsAround(documentList);
+
+      }
     });
 
     notifyListeners();
@@ -317,7 +342,8 @@ class MDAppState extends BaseModel {
             math.cos(latB) *
             math.sin(longSum2 / 2) *
             math.sin(longSum2 / 2);
-    double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a)
+    );
 
     double d = (R * c); // in metres
     double distanceKilometers = d / 1000.round(); // in metres

@@ -40,7 +40,8 @@ class MyInfoVm extends BaseModel{
 
     }catch(e){
       Fluttertoast.showToast(msg: "Loading Data...",toastLength:Toast.LENGTH_SHORT);
-      return e.message;
+      debugPrint("MyInfo Error ingetUserDocumentById: "+e );
+      return e;
     }
     setBusy(false);
     return _userDetails;

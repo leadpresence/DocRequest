@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobiledoc/Services/authentication_services.dart';
+import 'package:mobiledoc/Services/navigation_services.dart';
 import 'package:mobiledoc/dependencies.dart';
 
 class AppMenu extends StatelessWidget {
   AuthenticationService _authenticationService=
       locator<AuthenticationService>();
+  RoutingService _routingService=locator<RoutingService>();
+  FirebaseUser _firebaseUser;
   Widget _createHeader({String text}) {
-    String _fullName= _authenticationService.currentUser.lastName+ " "+ _authenticationService.currentUser.lastName;
+//    String _fullName= _authenticationService.currentUser.lastName+ " "+ _authenticationService.currentUser.lastName;
     return DrawerHeader(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
@@ -44,11 +48,10 @@ class AppMenu extends StatelessWidget {
           ),
 
           SizedBox(height: 10,),
-
           Positioned(
               bottom: 12.0,
               left: 16.0,
-              child: Text(_fullName!=null?_fullName:"...",
+              child: Text("",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,
@@ -115,14 +118,15 @@ class AppMenu extends StatelessWidget {
           ListView(children: <Widget>[
             header,
             _createDrawerItem(icon:Icons.phone_in_talk,text: "Your Requests",onTap: (){}),
-            _createDrawerItem(icon:Icons.perm_identity,text: "Your Info",),
+            _createDrawerItem(icon:Icons.perm_identity,text: "Your Info",onTap:
+            ()=>_routingService.navigateTo(MyInfoRoute)),
             _createDrawerItem(icon:Icons.payment,text: " Billings",),
             _createDrawerItem(icon:Icons.surround_sound,text: " Emergency",),
             _createDrawerItem(icon:Icons.settings,text: " Settings",),
 
             Divider(height: 0.5,thickness: 0.5,color: Colors.blueGrey,),
             SizedBox(height: 20,),
-            _createDrawerItem(text: " mobiledoc Inc",),
+            _createDrawerItem(text: " Mobiledoc Inc",),
 
 
           ],)

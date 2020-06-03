@@ -14,9 +14,9 @@ class WalkThroughTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
     return Container(
-      margin:EdgeInsets.only(top: 55.0) ,
+      margin:EdgeInsets.only(top: 40.0) ,
       padding: EdgeInsets.only(
-          top: 25.0,bottom: 24.0
+          top: 25.0,bottom: 10.0
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +48,7 @@ class WalkThroughTemplate extends StatelessWidget {
                         subtitle,textAlign: TextAlign.center,
                         style: _theme.textTheme.body1.merge(
                           TextStyle(
-                            color: Colors.grey[600],
+                            color: Colors.deepOrange,
                             height: 1.3,
                             fontWeight: FontWeight.w700,
                           ),

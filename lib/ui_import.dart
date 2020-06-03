@@ -9,6 +9,7 @@ export 'ui/personalDocForm.dart';
 export 'ui/phoneVerification.dart';
 export 'ui/requestDoctor.dart';
 export 'ui/UnAuthenticated.dart';
+export 'ui/UnAuthcreateAccountGoogle.dart';
 export 'ui/verify.dart';
 export 'ui/dashboard.dart';
 export 'ui/role.dart';

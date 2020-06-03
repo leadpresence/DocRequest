@@ -16,9 +16,7 @@ class FcmServices{
 //  FirestoreServiceAPI _firestoreServiceAPI = locator<FirestoreServiceAPI>();
   String _ktoken;
   String get ktoken=>_ktoken;
-
   FcmServices(){registerNotification();}
-
   void registerNotification() {
     firebaseMessaging.requestNotificationPermissions();
     firebaseMessaging.configure(

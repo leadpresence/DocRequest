@@ -97,7 +97,10 @@ class MDAppState extends BaseModel {
         placemark[0].name + " " + placemark[0].thoroughfare;
     //center for surrounding doctors
     _geoFirePoint = GeoFirePoint(position.latitude, position.longitude);
-    print("GeoFirePointData "+_geoFirePoint.data['geopoint'].latitude.toString()+" "+_geoFirePoint.data['geohash'].toString());
+    print("GeoFirePointData "+
+        geoFirePoint.data['geopoint'].latitude.toString()+" "+"\n"+
+        geoFirePoint.data['geopoint'].longitude.toString()+" "+
+        geoFirePoint.data['geohash'].toString());
     getDoctorsAroundMe();
     radius.add(200.0);
     notifyListeners();
@@ -113,7 +116,7 @@ class MDAppState extends BaseModel {
   //To update client loaction to firestore
   Future setLocation() async {
     try {
-      print("GeoFire Location"+_geoFirePoint.data);
+      print("GeoFire Location >> "+geoFirePoint.data);
 
       await _firestoreServiceAPI.updateMyLocation(
               {'currentLocation': {_geoFirePoint.data}},

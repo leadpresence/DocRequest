@@ -22,7 +22,7 @@ class User {
     String passport;
     String practisingDocument;
     var created_at;
-    var currentLocation;
+    Map currentLocation;
     String pushToken;
 
 
@@ -79,7 +79,8 @@ class User {
       created_at : map['created_at'],
       pushToken : map['pushToken'],
 
-    );}
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return

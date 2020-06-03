@@ -16,6 +16,7 @@ import 'widgets_imports.dart';
 const String WalkthroughRoute = "/";
 const String DashboardRoute = "Dashboard";
 const String UnAuthenticatedPageRoute = "LoginView";
+const String UnAthCreatAccountGoogleRoute = "createLoginView";
 const String PhoneVerificationRoute = "PhoneverificationCodeScreen";
 const String BankDetailsRoute = "BankDetailsView";
 const String PersonalDocumentsRoute = "PersonalDocuments";
@@ -62,6 +63,18 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
               name: settings.name
             ),
             builder: (BuildContext context)=>UnAthenticated()
+
+        );
+
+    case UnAthCreatAccountGoogleRoute:
+      return
+        MaterialPageRoute(
+//          (builder: (BuildContext context) => UnAthenticated()
+            settings: RouteSettings(
+
+                name: settings.name
+            ),
+            builder: (BuildContext context)=>UnAthCreatAccountGoogle()
 
         );
     case PhoneVerificationRoute:

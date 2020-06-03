@@ -238,11 +238,9 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                         _lastNameCtrl.text,
                                         _mobileCtrl.text,
                                         _addressCtrl.text,
-
                                         );
                                   }
-
-
+                              print( "-->>"+ MDAppState().geoFirePoint.data['geopoint'].longitude.toString());
                                 },
                               ),
                             ],

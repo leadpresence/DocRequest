@@ -6,9 +6,18 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
 
 import 'fcm_services.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:geolocator/geolocator.dart';
 /*this class instantiates Firebase Authentication for all the Auth Class*/
 
 class AuthenticationService {
+  Position _position = Position();
+  Position get position => _position;
+
+  GeoFirePoint _geoFirePoint;
+  GeoFirePoint get geoFirePoint=> _geoFirePoint;
+
+
   FirestoreServiceAPI _firestoreServiceAPI = locator<FirestoreServiceAPI>();
   FcmServices _fcmServices = locator<FcmServices>();
   FirebaseUser user;
@@ -46,22 +55,19 @@ class AuthenticationService {
   //To check if user is Logged in
 
   Future<bool> isUserSignedIn() async {
-    var  currentUser = await AuthenticationService().auth.currentUser();
-    try{
-     if (currentUser != null) {await populateUserDetails(currentUser);}
-   }
-   catch(e){debugPrint("Error populating user>>"+e.toString());}
+    var  currentUser = await auth.currentUser();
+        try{
+         if (currentUser != null) {await populateUserDetails(currentUser);}
+       }
+       catch(e){debugPrint("Error populating user>>"+e.toString());}
     return user != null;
-
-
   }
 
   Future populateUserDetails(FirebaseUser user) async {
-      print("Type>>>"+ _currentUser.runtimeType.toString());
     if (user != null) {
       //check if document with uid exist
       bool _value=await _firestoreServiceAPI.checkDocumentById(user.uid);
-      //if value if true  return the doc
+      //if value is true  return the doc
       if(_value){
         return _currentUser = await _firestoreServiceAPI.getUserDocumentById(user.uid);
       }
@@ -77,6 +83,8 @@ class AuthenticationService {
       String phone,
       String address}) async {
     var thisUser = await auth.currentUser();
+    _geoFirePoint = GeoFirePoint(position.latitude, position.longitude);
+
     try {
       //if the user is not existing create an account in the
       //firestore authenticated table else go on to create the users profile
@@ -87,9 +95,9 @@ class AuthenticationService {
         );
       }*/
 
-      Map _cur={'geohash': MDAppState().geoFirePoint.data['geohash']
-        ,'geopoint':[{'latitude':MDAppState().geoFirePoint.data['latitude'],
-          'longitude':MDAppState().geoFirePoint.data['longitude']}]};
+//      Map _cur={'geohash': MDAppState().geoFirePoint.data['geohash']
+//        ,'geopoint':[{'latitude':MDAppState().geoFirePoint.data['latitude'],
+//          'longitude':MDAppState().geoFirePoint.data['longitude']}]};
 
       _currentUser = User(
           id: thisUser.uid,
@@ -100,11 +108,10 @@ class AuthenticationService {
           phone: phone,
           created_at: FieldValue.serverTimestamp(),
         pushToken: _fcmServices.ktoken,// optional
-          currentLocation: "_cur"
 
       );
       await _firestoreServiceAPI.createUser(_currentUser);
-//      await MDAppState().updateLocation();
+//      await MDAppState().setLocation();
       return thisUser != null;
 
     } catch (e) {
@@ -115,7 +122,7 @@ class AuthenticationService {
 
 
 
-  //!To check if User exits in a spectic firstore document
+  //!To check if User exits in a specific firestore document
 
   getRegisteredUser()async{
     var thisUser = await auth.currentUser();

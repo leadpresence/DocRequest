@@ -42,7 +42,7 @@ class FirestoreServiceAPI {
     try {
       await collectionReference.document(user.id).setData(user.toMap(),merge: true);
     } catch (e) {
-      debugPrint("FirestoreAPI Error in creating createUser:"+e);
+      debugPrint("FirestoreAPI Error in creating createUser:"+e.toString());
       return;
     }
   }

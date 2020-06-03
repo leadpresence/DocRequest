@@ -6,21 +6,21 @@ import 'package:mobiledoc/dependencies.dart';
 
 
 class StartUpViewModel extends BaseModel{
+
+
   AuthenticationService _authenticationService=locator<AuthenticationService>();
   RoutingService _routingService =locator<RoutingService>();
   FcmServices _fcmServices=locator<FcmServices>();
-
-   Future handleStartUp() async{
+   Future handleStartUp() async
+   {
      _fcmServices.registerNotification();
-
      var hasUserLoggedIn= await _authenticationService.isUserSignedIn();
-
      if(hasUserLoggedIn){
        _routingService.navigateTo(MDservicesRoute);
        print("has User");
-
      }
-     else{
+     else
+       {
        _routingService.navigateTo(UnAuthenticatedPageRoute);
        print("has No User");
      }

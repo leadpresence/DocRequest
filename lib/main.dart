@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:mobiledoc/Services/navigation_services.dart';
 
 void main() {
-
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   runApp(mobiledoc());
@@ -49,7 +48,7 @@ class mobiledoc extends StatelessWidget {
         navigatorKey: locator<RoutingService>().navigationKey,
 //        initialRoute: WalkthroughRoute,
       //go to the Authservice and check if user is still signed in
-      home:Startup(),
+      home:WalkThrough(),
       ),
     );
   }

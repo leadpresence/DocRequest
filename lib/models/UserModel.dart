@@ -22,7 +22,7 @@ class User {
     String passport;
     String practisingDocument;
     var created_at;
-    Map currentLocation;
+    Map<dynamic,String> currentLocation;
     String pushToken;
 
 
@@ -47,17 +47,17 @@ class User {
     this.practisingDocument,
     this.folioNumuber,
     this.goal,
-      this.created_at,
-      this.currentLocation,
-      this.pushToken
+    this.created_at,
+    this.currentLocation,
+    this.pushToken
 
-  });
+  }):assert(firstName!=null && lastName!=null && id!=null);
 
 
   static User fromMap(Map<String, dynamic> map){
     return User(
-    id :map['id'],
-    firstName : map['firstName'],
+      id :map['id'],
+      firstName : map['firstName'],
       lastName : map['lastName'],
       email : map['email'],
       address : map['address'],
@@ -105,7 +105,7 @@ class User {
         'folioNumuber': folioNumuber ?? '',
         'passport': passport ?? '',
         'practisingDocument': practisingDocument ?? '',
-        'currentLocation': currentLocation,
+        'currentLocation': currentLocation??{},
         'created_at': created_at ??'',
         'pushToken': pushToken
       };

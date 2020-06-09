@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobiledoc/ui/requestDoctorsList.dart';
 import 'package:mobiledoc/ui/requestHospitalList.dart';
 import 'package:mobiledoc/ui/role_bloodGrp_form.dart';
+import 'package:mobiledoc/ui/updateLocationAndAgreement.dart';
 import 'models/doctorModel.dart';
 import 'ui_import.dart';
 import 'widgets_imports.dart';
@@ -23,6 +24,7 @@ const String PersonalDocumentsRoute = "PersonalDocuments";
 const String HomeWelcomeRoute = "HomeWelcome";
 const String RequestDoctorRoute = "RequestDoctor";
 const String CompleteProfileRoute = "CompleteProfile";
+const String UpdateGeoLocationRoute = "updateGeo";
 const String PhysicalDetailsRoute = "ProfileDetailsWHG";
 const String DobFormRoute = "DobForm";
 const String RoleFormRoute = "RoleForm";
@@ -62,7 +64,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
               name: settings.name
             ),
-            builder: (BuildContext context)=>UnAthenticated()
+            builder: (BuildContext context)=>UnAuthenticated()
 
         );
 
@@ -83,6 +85,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case CompleteProfileRoute:
       return MaterialPageRoute(
           builder: (BuildContext context) =>CompleteProfile());
+    case UpdateGeoLocationRoute:
+      return MaterialPageRoute(
+          builder: (BuildContext context) =>UpdateGeoLocation());
     case BankDetailsRoute:
       return MaterialPageRoute(
 //          builder: (BuildContext context) =>BankDetails()

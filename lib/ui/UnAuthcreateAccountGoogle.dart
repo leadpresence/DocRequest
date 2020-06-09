@@ -47,7 +47,11 @@ class _UnAthCreatAccountGoogle extends State<UnAthCreatAccountGoogle> {
               ),
 
               SizedBox(height: 35.0,),
-              //butons
+              Text("We don\'t like thinking of passwords too\nSelect preferred Email..",
+                style: TextStyle(color: lbasicGreyColor, fontSize: 14.5,),
+                textAlign: TextAlign.center,
+
+              ),
 //              MobileNumberButton(),
               SizedBox(height: 20.0,),
 //              MobileButton('FaceBook',  facebookColor),
@@ -55,8 +59,9 @@ class _UnAthCreatAccountGoogle extends State<UnAthCreatAccountGoogle> {
               GoogleCreateAccountButton(),
               SizedBox(height: 20.0,),
 
+
               Text("By continuing, you agree to Terms & Conditions",
-                style: TextStyle(color: lbasicGreyColor, fontSize: 9.5,),
+                style: TextStyle(color: lbasicGreyColor, fontSize: 11.5,),
                 textAlign: TextAlign.center,
 
               ),
@@ -74,28 +79,28 @@ class _UnAthCreatAccountGoogle extends State<UnAthCreatAccountGoogle> {
 
 
 }
-class BottomWaveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = new Path();
-    path.lineTo(0, size.height / 4.25);
-    var firstControlPoint = new Offset(size.width / 4, size.height / 3);
-    var firstEndPoint = new Offset(size.width / 2, size.height / 3 - 60);
-    var secondControlPoint =
-    new Offset(size.width - (size.width / 4), size.height / 4 - 65);
-    var secondEndPoint = new Offset(size.width, size.height / 3 - 40);
-
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
-
-    path.lineTo(size.width, size.height / 3);
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}
+//class BottomWaveClipper extends CustomClipper<Path> {
+//  @override
+//  Path getClip(Size size) {
+//    var path = new Path();
+//    path.lineTo(0, size.height / 4.25);
+//    var firstControlPoint = new Offset(size.width / 4, size.height / 3);
+//    var firstEndPoint = new Offset(size.width / 2, size.height / 3 - 60);
+//    var secondControlPoint =
+//    new Offset(size.width - (size.width / 4), size.height / 4 - 65);
+//    var secondEndPoint = new Offset(size.width, size.height / 3 - 40);
+//
+//    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+//        firstEndPoint.dx, firstEndPoint.dy);
+//    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+//        secondEndPoint.dx, secondEndPoint.dy);
+//
+//    path.lineTo(size.width, size.height / 3);
+//    path.lineTo(size.width, 0);
+//    path.close();
+//    return path;
+//  }
+//
+//  @override
+//  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+//}

@@ -4,6 +4,7 @@ import 'package:mobiledoc/models/UserModel.dart';
 import 'package:mobiledoc/locator.dart';
 import 'package:mobiledoc/models/doctorModel.dart';
 import 'package:mobiledoc/models/hospitalModel.dart';
+import 'package:mobiledoc/models/request_model.dart';
 import 'authentication_services.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,6 +44,19 @@ class FirestoreServiceAPI {
       await collectionReference.document(user.id).setData(user.toMap(),merge: true);
     } catch (e) {
       debugPrint("FirestoreAPI Error in creating createUser:"+e.toString());
+      return;
+    }
+  }
+
+  //To create a ew rquest in the request Sub-collection
+  Future createRequest(Request request,String userId ) async {
+    try {
+      await collectionReference.document(userId)
+            .collection('Requests')
+            .document(request.id)
+            .setData(request.toMap(),merge: true);
+    } catch (e) {
+      debugPrint("FirestoreAPI Error in creating request:"+e.toString());
       return;
     }
   }

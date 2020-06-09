@@ -85,7 +85,7 @@ class _SearchDoc extends State<SearchDoc> {
                               Icon(Icons.location_on),
                               SizedBox(
                                 width: 10.0,
-                              ),
+                               ),
                               Expanded(
                                 child:
                                 TextField(
@@ -116,37 +116,37 @@ class _SearchDoc extends State<SearchDoc> {
                       ),
                       SizedBox(height: 0.5,),
                       ///this is clicked to call the screen where you search for doctors
-                      Card(
-                        elevation: 2.0,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Icon(Icons.search),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Expanded(
-                                child: TextField(
-                                  controller: appState.docSearchController,
-//                                onChanged:(value){filterSearchResults(value);},
-                                  textInputAction: TextInputAction.search,
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "Search your Doctor"),
-                                  maxLines: 1,
-                                ),
-                              ),
-                              IconButton(icon: Icon(Icons.cancel),
-                                onPressed: () {
-
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+//                      Card(
+//                        elevation: 2.0,
+//                        child: Padding(
+//                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+//                          child: Row(
+//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                            children: <Widget>[
+//                              Icon(Icons.search),
+//                              SizedBox(
+//                                width: 10.0,
+//                              ),
+//                              Expanded(
+//                                child: TextField(
+//                                  controller: appState.docSearchController,
+////                                onChanged:(value){filterSearchResults(value);},
+//                                  textInputAction: TextInputAction.search,
+//                                  decoration: InputDecoration(
+//                                      border: InputBorder.none,
+//                                      hintText: "Search your Doctor"),
+//                                  maxLines: 1,
+//                                ),
+//                              ),
+//                              IconButton(icon: Icon(Icons.cancel),
+//                                onPressed: () {
+//
+//                                },
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
                       SizedBox(height: 3,),
 //                    Padding(
 //                      padding: EdgeInsets.all(8.0),
@@ -235,11 +235,11 @@ class _SearchDoc extends State<SearchDoc> {
                       ),
 
 
-                      SubmitButton(buttonHeight: 40,buttonWidth: 160,color: btnColor,
-                      btnTitle: "mobiledoc Pay",fontSize: 16,buttonPressed: (){
-                          allowPayButton?Navigator.pushNamed(context, PaymentDialogRoute):
-                              Fluttertoast.showToast(msg: "Please Select a Doctor",toastLength: Toast.LENGTH_SHORT);
-                          },)
+//                      SubmitButton(buttonHeight: 40,buttonWidth: 160,color: btnColor,
+//                      btnTitle: "mobiledoc Pay",fontSize: 16,buttonPressed: (){
+//                          allowPayButton?Navigator.pushNamed(context, PaymentDialogRoute):
+//                              Fluttertoast.showToast(msg: "Please Select a Doctor",toastLength: Toast.LENGTH_SHORT);
+//                          },)
                     ]),
               ),
             ])

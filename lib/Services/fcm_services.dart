@@ -3,25 +3,46 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobiledoc/Services/authentication_services.dart';
 import 'package:mobiledoc/dependencies.dart';
-
 import '../locator.dart';
 import 'navigation_services.dart';
 
-class FcmServices{
 
-
-  FirebaseMessaging  firebaseMessaging=FirebaseMessaging();
-  RoutingService _routingService =locator<RoutingService>();
+class FcmServices {
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  RoutingService _routingService = locator<RoutingService>();
 //  AuthenticationService _authenticationService=locator<AuthenticationService>();
 //  FirestoreServiceAPI _firestoreServiceAPI = locator<FirestoreServiceAPI>();
   String _ktoken;
-  String get ktoken=>_ktoken;
-  FcmServices(){registerNotification();}
+  String get ktoken => _ktoken;
+
+
   void registerNotification() {
     firebaseMessaging.requestNotificationPermissions();
-    firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) {
+    firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
       print('onMessage: $message');
+      AlertDialog(
+        title: Text("New Request"),
+        content: Text("You have a new request\n${message}"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              "Accept",
+              style: TextStyle(fontSize: 12.0, color: Colors.green),
+            ),
+            onPressed: () => debugPrint("Request Accept"),
+          ),
+          SizedBox(
+            width: 7.0,
+          ),
+          FlatButton(
+            child: Text(
+              "Decline",
+              style: TextStyle(fontSize: 12.0, color: Colors.green),
+            ),
+            onPressed: () => debugPrint("Request Declined"),
+          ),
+        ],
+      );
 //      Platform.isAndroid ? showNotification(message['notification']) : showNotification(message['aps']['alert']);
       return;
     }, onResume: (Map<String, dynamic> message) {
@@ -34,16 +55,15 @@ class FcmServices{
 
       return;
     });
-    firebaseMessaging.getToken().then((token){
-      debugPrint("DEVICE TOKEN: "+token);
+    firebaseMessaging.getToken().then((token) {
+      debugPrint("DEVICE TOKEN: " + token);
 
-      this._ktoken=token;
+      this._ktoken = token;
     });
-
   }
 
   //save token to firebase
-  getClientPushToken(){
+  getClientPushToken() {
 //    firebaseMessaging.getToken().then((token) {
 //      debugPrint('token :'+token);
 //      return token;
@@ -51,19 +71,18 @@ class FcmServices{
 //      debugPrint("Error getting pushtoken:"+err);
 //    });
 
-  return _ktoken;
+    return _ktoken;
 
     //Todo set this also for doctors collection
   }
 
   //To set a message with a key view on click of the notification routes to the
   //RequestDoctorRoute screen
-  void serializeNavigate(Map<String, dynamic> message){
-    var notificationData=message['data'];
-    var view=notificationData['New_request'];
-    if(view!=null){
+  void serializeNavigate(Map<String, dynamic> message) {
+    var notificationData = message['data'];
+    var view = notificationData['New_request'];
+    if (view != null) {
       _routingService.navigateTo(RequestDoctorRoute);
     }
-
   }
 }

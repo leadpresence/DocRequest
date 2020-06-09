@@ -97,10 +97,7 @@ class MDAppState extends BaseModel {
         placemark[0].name + " " + placemark[0].thoroughfare;
     //center for surrounding doctors
     _geoFirePoint = GeoFirePoint(position.latitude, position.longitude);
-    print("GeoFirePointData "+
-        geoFirePoint.data['geopoint'].latitude.toString()+" "+"\n"+
-        geoFirePoint.data['geopoint'].longitude.toString()+" "+
-        geoFirePoint.data['geohash'].toString());
+
     getDoctorsAroundMe();
     radius.add(200.0);
     notifyListeners();
@@ -116,13 +113,17 @@ class MDAppState extends BaseModel {
   //To update client loaction to firestore
   Future setLocation() async {
     try {
-      print("GeoFire Location >> "+geoFirePoint.data);
-
+      print("GeoFirePointData "+
+          geoFirePoint.data['geopoint'].latitude.toString()+" "+"\n"+
+          geoFirePoint.data['geopoint'].longitude.toString()+" "+
+          geoFirePoint.data['geohash'].toString());
       await _firestoreServiceAPI.updateMyLocation(
-              {'currentLocation': {_geoFirePoint.data}},
+              {'currentLocation':
+              geoFirePoint.data},
               _authenticationService.currentUser.id);
-    } catch (e) {
-      debugPrint("FirestoreAPI Error in setLocation: "+ e);
+    } catch (e)
+    {
+      debugPrint("FirestoreAPI Error in setLocation: "+ e.toString());
       return e;
     }
   }
@@ -140,35 +141,37 @@ class MDAppState extends BaseModel {
       return _geoFirePoint
           .collection(collectionRef: collectionReference)
           .within(
-              center: center,
-              radius: fun,
-              field: 'currentLocation',
-              strictMode: true);
+              center: center, radius: fun,
+              field: 'currentLocation', strictMode: true);
     });
   }
 
   //TO PLACE MARKERS ON THE MAP SHOWING DOCTORS LOCATION
-  void _getDoctorsAround(List<DocumentSnapshot> documentList) {
-    print("marker document List  ${documentList.length}");
-    documentList.forEach((DocumentSnapshot document) {
-//      GeoPoint pos = document.data['currentLocation']['geopoint'];
-      double lat = document.data['currentLocation']['geopoint'].latitude;
-      double long = document.data['currentLocation']['geopoint'].longitude;
-//      double distance = document.data['distance'];
-
-  //Push the individual token into this List and send
-      String _token= document.data['pushToken'];
-        _tokenDoctorsAround.add(_token);
-      _markers.add(Marker(
-          markerId: MarkerId(lat.toString()),
+  void _showSetDoctorsAround(List<DocumentSnapshot> documentList) {
+try{
+  print("marker document List  ${documentList.length}");
+  documentList.forEach((DocumentSnapshot document) {
+    double lat = document.data['currentLocation']['geopoint'].latitude;
+    double long = document.data['currentLocation']['geopoint'].longitude;
+    //Push the individual token into this List and send
+    String _token= document.data['pushToken'];
+    _tokenDoctorsAround.add(_token);
+    _markers.add(Marker(
+        markerId: MarkerId(lat.toString()),
 //        position: LatLng(pos.latitude, pos.longitude),
-          position: LatLng(lat, long),
-          icon: _sourceIcon,
-          infoWindow: InfoWindow(
-          title: 'Magic Marker', snippet: 'few kilometers from doctor')));
-    });
-    notifyListeners();
+        position: LatLng(lat, long),
+        icon: _sourceIcon,
+        infoWindow: InfoWindow(
+            title: 'Doctor Marker', snippet: 'few kilometers from doctor')
+    ));
+  });
+  notifyListeners();
+}catch(e){
+  debugPrint("/>>Error setting doctors markers :"+e.toString());
+}
+
   }
+
 
 
   //To send notification to all available doctors within a radius
@@ -276,9 +279,9 @@ class MDAppState extends BaseModel {
   void onCreated(GoogleMapController controller) {
     _mapController = controller;
     stream.listen((List<DocumentSnapshot> documentList) {
-      if(documentList!=null){
-        _getDoctorsAround(documentList);
-
+      if(documentList!=null)
+      {
+        _showSetDoctorsAround(documentList);
       }
     });
 

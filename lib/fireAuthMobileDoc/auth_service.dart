@@ -18,7 +18,7 @@ class Authservice{
     return StreamBuilder(
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (BuildContext context, snapshot) {
-          return snapshot.hasData?DashBoard():UnAthenticated();
+          return snapshot.hasData?DashBoard():UnAuthenticated();
       }
     );
   }

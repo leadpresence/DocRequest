@@ -15,19 +15,15 @@ _WalkThrough createState()=>_WalkThrough();
 
 class _WalkThrough extends State<WalkThrough>{
  RoutingService _routingService =locator<RoutingService>();
-  @override
 
-  void initState() {
-    super.initState();
-
-  }
   final PageController _pageViewController = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
     final WalkthroughProvider _walkthroughProvider = Provider.of<WalkthroughProvider>(context, listen: false);
 
 
-    return      ViewModelBuilder<StartUpViewModel>.reactive(
+    return
+      ViewModelBuilder<StartUpViewModel>.reactive(
     onModelReady: (model)=>model.handleStartUp(),
     viewModelBuilder: ()=>StartUpViewModel(),
     builder: (context, model, child)=>
@@ -104,9 +100,9 @@ class _WalkThrough extends State<WalkThrough>{
 
               style:TextStyle(fontSize:14, color: Colors.black,fontWeight: FontWeight.bold),
               children: <TextSpan>[
-
-                TextSpan(text:"Already have an account ?",style: TextStyle(color: Colors.deepOrange,)),
-
+                TextSpan(text:"Already have an account ?",
+                    style: TextStyle(color: Colors.grey,)
+                     ),
                 TextSpan(text: "    Login ", style:TextStyle(fontSize:17,fontWeight: FontWeight.bold),
                   recognizer:new TapGestureRecognizer()..onTap = () =>
                   _routingService.navigateTo(UnAuthenticatedPageRoute),
@@ -122,7 +118,7 @@ class _WalkThrough extends State<WalkThrough>{
               style:TextStyle(fontSize:10.5, color: dbasicDarkColor),
               children: <TextSpan>[
 
-                TextSpan(text:"By continuing, I confirm that i have read & agree to the",),
+                TextSpan(text:"By continuing, I confirm that i have read & agreed to the",),
                 TextSpan(text: "\nTerms & conditions ",
                     recognizer:new TapGestureRecognizer()..onTap = () => print('Terms'),
                     style:TextStyle(fontWeight: FontWeight.bold)),

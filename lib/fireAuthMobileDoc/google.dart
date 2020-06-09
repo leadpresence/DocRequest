@@ -14,16 +14,12 @@ class GoogleAuth{
   // Dependencies
   final FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleAuth= GoogleSignIn();
-  DateTime _created_at= new DateTime.now();
   final AuthenticationService _authenticationService=locator<AuthenticationService>();
-
-
 
   Future<bool>  sinInWithGoogle() async{
     try{
       //instance of google
       GoogleSignInAccount _userdetails=await _googleAuth.signIn();
-
       if (_userdetails ==null)
          return false;
         AuthResult result=await _auth.signInWithCredential(GoogleAuthProvider.getCredential(
@@ -37,7 +33,7 @@ class GoogleAuth{
           return false;
       return true;
     }catch(e){
-      print("Error LogingIn with Google");
+      print("Error LoggingIn with Google");
       return false;
     }
   }

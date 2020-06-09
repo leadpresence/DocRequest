@@ -180,24 +180,38 @@ class _MDScreen extends State<MDScreen> {
            Positioned(
              bottom: 80.0,
              left: 50,right: 50,
-             child: FloatingActionButton(
+             child:
+             Container(
 
-              backgroundColor: Colors.black,
-               child: Icon(Icons.person_pin,color: Colors.white,size: 50,),
-               onPressed: ()async{
-                try{
-                  debugPrint("pressed request Doctor");
-                var x= await   _authenticationService.getRegisteredUser();
-                print(x.toString());
-                x==true && x!=null
-                      ? callDoctorSheet()
-                      : _routingService.navigateTo(CompleteProfileRoute);
-                }
-                catch(e){
-                  debugPrint("Error request doctor:"+e.toString());
-                }
+               decoration: BoxDecoration(
+                 color: Colors.black,
 
-               },
+                 border: Border.all(
+                     color: Theme.of(context).primaryColor,
+                     style: BorderStyle.solid),
+
+                 borderRadius: BorderRadius.all(
+                   Radius.circular(10.0),
+                 ),
+               ),
+               child: FlatButton(
+                 child:
+                 Text('Need A Medic?',style:             			   TextStyle(color:Theme.of(context).scaffoldBackgroundColor,
+                   fontSize: 16.0,
+                 ),
+                 ),
+                 onPressed: ()async{
+                   try{
+                     debugPrint("pressed request Doctor");
+                     callDoctorSheet();
+                   }
+                   catch(e){
+                     debugPrint("Error request doctor:"+e.toString());
+                   }
+                 },
+                 padding: EdgeInsets.all(6.0),
+               ),
+               width: 240,height: 55,
              ),
            ),
 

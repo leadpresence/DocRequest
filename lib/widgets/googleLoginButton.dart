@@ -42,7 +42,7 @@ class GoogleLoginButton extends StatelessWidget {
               child: FlatButton(
                   onPressed: () async {
                     try {
-                      bool res = await _authenticationService.sinInWithGoogle();
+                      bool res = await _authenticationService.signInWithGoogle();
                       CircularProgressIndicator(strokeWidth: 3,backgroundColor: Colors.blueAccent,semanticsLabel: 'Please Wait...',);
 
                       if (!res){

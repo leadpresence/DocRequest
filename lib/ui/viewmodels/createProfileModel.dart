@@ -9,14 +9,19 @@ import 'base_model.dart';
 class CreateProfileVM extends BaseModel{
   final AuthenticationService _authenticationService=locator.get<AuthenticationService>();
   final RoutingService _navigationService = locator.get<RoutingService>();
+  TextEditingController emailCtrl = new TextEditingController();
 
-  String title = 'default';
+  String email;
 
   void initialise() {
-    title = 'initialised';
+    setemail();
     notifyListeners();
   }
+  setemail()async{
+    await _authenticationService.auth.currentUser()
+        .then((onValue) =>emailCtrl.text=onValue.email);
 
+  }
 
   Future<void> signUp([ String email,String firstName,String lastName,String phone, String address])
   async {
@@ -30,21 +35,16 @@ class CreateProfileVM extends BaseModel{
 
       );
     setBusy(false);
-      if (authResult is! String ) {
-        _navigationService.navigateTo(MDservicesRoute);
+      if (authResult is bool ) {
+                if (authResult) {
+                  _navigationService.navigateTo(UpdateGeoLocationRoute);
 
-//        if (authResult) {
-//          _navigationService.navigateTo(BankDetailsRoute);
-//        } else {
-//
-//
-//          Fluttertoast.showToast(msg: "General Signup Failure, Please Try Again",
-//              toastLength: Toast.LENGTH_LONG,textColor: Colors.redAccent);
-//
-//        }
+               } else {
+                  Fluttertoast.showToast(msg: "General Signup Failure, Please Try Again",toastLength: Toast.LENGTH_LONG,);
+                   }
       }
       else {
-        Fluttertoast.showToast(msg: "General Signup Failure, Please Try Again ${authResult.toString()}",toastLength: Toast.LENGTH_LONG,);
+        Fluttertoast.showToast(msg: "${authResult.toString()}",toastLength: Toast.LENGTH_LONG,);
       }
   }
 

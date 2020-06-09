@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:mobiledoc/Services/authentication_services.dart';
 import 'package:mobiledoc/dependencies.dart';
 import 'package:mobiledoc/widgets_imports.dart';
 import 'package:mobiledoc/ui/viewmodels/createProfileModel.dart';
@@ -21,17 +22,18 @@ class _CompleteProfileState extends State<CompleteProfile> {
     super.initState();
   }
 
+
   User user;
   bool emailFieldComplete = false;
   String _address, _email, _phone, _fname;
   String _lname;
   int userId;
 
+
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
     GlobalKey<FormState> _profileFormKey = new GlobalKey<FormState>();
-
 
 
     return ViewModelBuilder<CreateProfileVM>.reactive(
@@ -202,9 +204,9 @@ class _CompleteProfileState extends State<CompleteProfile> {
                               TextFormField(
                                 onSaved: (value) {
                                   _email = value;
-                                  _emailCtrl.text = value;
+                                  model.emailCtrl.text = value;
                                 },
-                                controller: _emailCtrl,
+                                controller: model.emailCtrl,
                                 keyboardType: TextInputType.emailAddress,
                                 onFieldSubmitted: (String value) {
                                   setState(() {
@@ -233,14 +235,13 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                   print("regration started");
                                   if (_profileFormKey.currentState.validate()) {
                                     model.signUp(
-                                        _emailCtrl.text,
+                                        model.emailCtrl.text,
                                         _firstNameCtrl.text,
                                         _lastNameCtrl.text,
                                         _mobileCtrl.text,
                                         _addressCtrl.text,
                                         );
                                   }
-                              print( "-->>"+ MDAppState().geoFirePoint.data['geopoint'].longitude.toString());
                                 },
                               ),
                             ],
@@ -267,7 +268,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   Color _color = Colors.black;
   TextEditingController _addressCtrl = new TextEditingController();
-  TextEditingController _emailCtrl = new TextEditingController();
   TextEditingController _mobileCtrl = new TextEditingController();
   TextEditingController _firstNameCtrl = new TextEditingController();
   TextEditingController _lastNameCtrl = new TextEditingController();

@@ -6,12 +6,11 @@ import 'package:mobiledoc/widgets/facebookButton.dart';
 
 var unauthkey=GlobalKey();
 
-class UnAthenticated extends StatefulWidget {
+class UnAuthenticated extends StatefulWidget {
   @override
-  _UnAthenticatedState createState() => _UnAthenticatedState();
+  _UnAuthenticatedState createState() => _UnAuthenticatedState();
 }
-
-class _UnAthenticatedState extends State<UnAthenticated> {
+class _UnAuthenticatedState extends State<UnAuthenticated> {
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
@@ -42,9 +41,7 @@ class _UnAthenticatedState extends State<UnAthenticated> {
                       )
                   ),
                 ),
-
               ),
-
               SizedBox(height: 35.0,),
               //butons
               MobileNumberButton(),
@@ -53,48 +50,11 @@ class _UnAthenticatedState extends State<UnAthenticated> {
 //              SizedBox(height: 20.0,),
               GoogleLoginButton(),
               SizedBox(height: 20.0,),
-
               Text("By continuing, you agree to Terms & Conditions",
                 style: TextStyle(color: lbasicGreyColor, fontSize: 9.5,),
                 textAlign: TextAlign.center,
-
               ),
-      
-
-
-
-
             ])
-
-
     );
   }
-
-
-
 }
-//class BottomWaveClipper extends CustomClipper<Path> {
-//  @override
-//  Path getClip(Size size) {
-//    var path = new Path();
-//    path.lineTo(0, size.height / 4.25);
-//    var firstControlPoint = new Offset(size.width / 4, size.height / 3);
-//    var firstEndPoint = new Offset(size.width / 2, size.height / 3 - 60);
-//    var secondControlPoint =
-//    new Offset(size.width - (size.width / 4), size.height / 4 - 65);
-//    var secondEndPoint = new Offset(size.width, size.height / 3 - 40);
-//
-//    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-//        firstEndPoint.dx, firstEndPoint.dy);
-//    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-//        secondEndPoint.dx, secondEndPoint.dy);
-//
-//    path.lineTo(size.width, size.height / 3);
-//    path.lineTo(size.width, 0);
-//    path.close();
-//    return path;
-//  }
-//
-//  @override
-//  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-//}

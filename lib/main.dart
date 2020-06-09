@@ -13,7 +13,7 @@ import 'package:mobiledoc/Services/navigation_services.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-  runApp(mobiledoc());
+  runApp(Mobiledoc());
   //setting Preferred orientation
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -26,9 +26,8 @@ void main() {
     SystemUiOverlay.bottom,
   ]);
 }
-class mobiledoc extends StatelessWidget {
-  FcmServices _firebaseMessaging=locator<FcmServices>();
-
+class Mobiledoc extends StatelessWidget {
+ final FcmServices _firebaseMessaging=locator<FcmServices>();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -37,18 +36,20 @@ class mobiledoc extends StatelessWidget {
                  ChangeNotifierProvider.value(value: MDAppState(),),
                  ],
       child: MaterialApp(
-        title: "mobiledoc",
+        title: "MobileDoc",
         debugShowCheckedModeBanner: false,
         onGenerateRoute: onGenerateRoute,
-        theme: ThemeData.light().copyWith(
+        theme: ThemeData(
+            brightness: Brightness.light,
+            fontFamily: 'Montserrat_Alternates',
 //          primaryColor: Color(0xff0a9bf0),//blue
-          primaryColor: Color(0xff05080d),//black
-          scaffoldBackgroundColor: Color(0xFFFFFFFF),
+            primaryColor: Color(0xff05080d),//black
+            scaffoldBackgroundColor: Color(0xFFFFFFFF),
         ),
+
         navigatorKey: locator<RoutingService>().navigationKey,
 //        initialRoute: WalkthroughRoute,
-      //go to the Authservice and check if user is still signed in
-      home:WalkThrough(),
+        home:WalkThrough(),
       ),
     );
   }

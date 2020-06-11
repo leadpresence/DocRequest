@@ -17,7 +17,6 @@ class AuthenticationService {
 
   GeoFirePoint _geoFirePoint;
   GeoFirePoint get geoFirePoint => _geoFirePoint;
-
   FirestoreServiceAPI _firestoreServiceAPI = locator<FirestoreServiceAPI>();
   FcmServices _fcmServices = locator<FcmServices>();
   FirebaseUser user;
@@ -39,6 +38,7 @@ class AuthenticationService {
           accessToken: (await userdetails.authentication).accessToken);
       if (userdetails == null) return false;
       AuthResult result = await auth.signInWithCredential(_authCredential);
+      await populateUserDetails(result.user); //<--get user data from firestotre
       if (result.user == null) return false;
       return true;
     } catch (e) {
@@ -48,37 +48,30 @@ class AuthenticationService {
   }
 
   getCurrentUserId() async {
-    String uid = (await auth.currentUser()).uid;
-    return (await auth.currentUser()).uid;
+    try {
+      String uid = (await auth.currentUser()).uid;
+      return (await auth.currentUser()).uid;
+    } catch (e) {}
   }
 
   //To check if user is Logged in
 
-  //  Future<bool> isUserSignedIn() async {
-  //    var  thisUser = await auth.currentUser();
-  //    return thisUser != null;
-  //  }
   Future<bool> isUserLoggedIn() async {
-    var user = await auth.currentUser().then((firebaseUser) {
-      if (firebaseUser == null) {
-        print("has No User<<<");
-        return false;
-      } else {
-        print(">>>has User");
-        return true;
-      }
-    });
+    try {
+      var thisUser = await auth.currentUser();
+      await populateUserDetails(thisUser); //<--get user data from firestotre
+
+      return thisUser != null;
+    } catch (e) {
+      debugPrint("Error in isUserLoggedIn: " + e.toString());
+    }
   }
 
   Future populateUserDetails(FirebaseUser user) async {
     if (user != null) {
-      //check if document with uid exist
-      bool _value = await _firestoreServiceAPI.checkDocumentById(user.uid);
-      //if value is true  return the doc
-      if (_value) {
-        return _currentUser =
-            await _firestoreServiceAPI.getUserDocumentById(user.uid);
-      }
+      _currentUser = await _firestoreServiceAPI.getUser(user.uid);
+      print("Lastname " + _currentUser.lastName);
+//      }
     }
   }
 
@@ -122,11 +115,6 @@ class AuthenticationService {
     var thisUser = await auth.currentUser();
     print("user id is " + thisUser.uid);
     try {
-//      _currentUser= User(
-//          bankName:bankName,
-//          accountName:accountName,
-//          accountNumber:accountNumber
-//      );
       var _userBankDetail = {
         'bankName': bankName,
         'accountName': accountName,
@@ -180,18 +168,6 @@ class AuthenticationService {
     }
   }
 
-//
-//  Future <void> getUserInfo()async{
-//    var result= await auth.currentUser;
-//
-//    try{
-//      User userInfo= await _firestoreServiceAPI.getUserDocumentById(_user)
-//
-//      print(userInfo);
-//    }catch(e){
-//      print(e);
-//      }
-
   Future<bool> checkUserPush() async {
     Future<bool> hasPushToken;
     var userId = currentUser.id;
@@ -206,17 +182,24 @@ class AuthenticationService {
 
   //to create a  request on the
   Future createNewRquest(
-      {String patientName,
+      {String id,
+      String patientName,
+      String patientNote,
       String patientAddress,
       String patientPhone,
+      List<String> tokens,
       int acceptedFlag}) async {
     var thisUser = await auth.currentUser();
     try {
       _request = Request(
-          patientName: patientName,
+          id: thisUser.uid,
+          patientName: currentUser.lastName + " " + currentUser.firstName,
           patientAddress: patientAddress,
-          patientPhone: patientPhone,
-          acceptedFlag: acceptedFlag);
+          patientNote: patientNote,
+          patientPhone: currentUser.phone,
+          acceptedFlag: 0,
+          tokens: tokens,
+          startAt: FieldValue.serverTimestamp());
       await _firestoreServiceAPI.createRequest(_request, thisUser.uid);
       return;
     } catch (e) {

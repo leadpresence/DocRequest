@@ -16,7 +16,7 @@ class StartUpViewModel extends BaseModel {
     _fcmServices.registerNotification();
     var hasUserLoggedIn = await _authenticationService.isUserLoggedIn();
     debugPrint("hasUserLoggedIn >>:${hasUserLoggedIn.runtimeType.toString()}");
-    if (hasUserLoggedIn) {
+    if (hasUserLoggedIn && hasUserLoggedIn!=null ) {
       _routingService.navigateTo(MDservicesRoute);
       print(">>>has User");
     } else {

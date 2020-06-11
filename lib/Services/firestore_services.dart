@@ -76,6 +76,14 @@ class FirestoreServiceAPI {
       return e.toString();
     }
   }
+  Future getUser(String uid) async {
+    try {
+      var userData = await collectionReference.document(uid).get();
+      return User.fromMap(userData.data);
+    } catch (e) {
+      return e.message;
+    }
+  }
 
   //check with boolean if a user(client) exists in users collection
   checkDocumentById(String id) async

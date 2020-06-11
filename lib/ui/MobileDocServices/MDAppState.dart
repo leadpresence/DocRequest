@@ -39,6 +39,7 @@ class MDAppState extends BaseModel {
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   TextEditingController locationController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
   TextEditingController docSearchController = TextEditingController();
   LatLng get initialPosition => _initialPosition;
   LatLng get lastPosition => _lastPosition;
@@ -83,24 +84,29 @@ class MDAppState extends BaseModel {
   }
 // ! TO GET THE USERS LOCATION
   void _getUserLocation() async {
-    print("GET USER METHOD RUNNING >>>>>>>");
-    _position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    List<Placemark> placemark = await Geolocator()
-        .placemarkFromCoordinates(position.latitude, position.longitude);
-    _initialPosition = LatLng(position.latitude, position.longitude);
-    print(
-        "the latitude is: ${position.latitude} and the longitude is: ${position.longitude} ");
-    print("initial position is : ${_initialPosition.toString()}");
+    try{
+      print("GET USER METHOD RUNNING >>>>>>>");
+      _position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      List<Placemark> placemark = await Geolocator()
+          .placemarkFromCoordinates(position.latitude, position.longitude);
+      _initialPosition = LatLng(position.latitude, position.longitude);
+      print(
+          "the latitude is: ${position.latitude} and the longitude is: ${position.longitude} ");
+      print("initial position is : ${_initialPosition.toString()}");
 //    updateMyLocation(position.latitude, position.longitude);
-    locationController.text =
-        placemark[0].name + " " + placemark[0].thoroughfare;
-    //center for surrounding doctors
-    _geoFirePoint = GeoFirePoint(position.latitude, position.longitude);
+      locationController.text =
+          placemark[0].name + " " + placemark[0].thoroughfare;
+      //center for surrounding doctors
+      _geoFirePoint = GeoFirePoint(position.latitude, position.longitude);
 
-    getDoctorsAroundMe();
-    radius.add(200.0);
-    notifyListeners();
+      getDoctorsAroundMe();
+      radius.add(200.0);
+      notifyListeners();
+    }catch(e){
+      debugPrint(">>Error getting User Location:" +e.toString());
+    }
+
   }
 
 //  setMessage(List<String> m){
@@ -155,7 +161,7 @@ try{
     double long = document.data['currentLocation']['geopoint'].longitude;
     //Push the individual token into this List and send
     String _token= document.data['pushToken'];
-    _tokenDoctorsAround.add(_token);
+    tokenDoctorsAround.add(_token);
     _markers.add(Marker(
         markerId: MarkerId(lat.toString()),
 //        position: LatLng(pos.latitude, pos.longitude),
@@ -176,12 +182,24 @@ try{
 
   //To send notification to all available doctors within a radius
   //locations from _getCloseDoctors
-  void _dispatchDoctors() async {
+  void sendRequestToDoctors() async {
     //TODO handle sending push notifications
+     String patienceName=currentUser.lastName +" "+currentUser.firstName;
+     String patientAddress=locationController.text;
+     String patientPhone=currentUser.phone;
+     List<String> tokens=_tokenDoctorsAround;
+
+         setBusy(true);
+   await  _authenticationService.createNewRquest(
+       patientAddress: patientAddress,patientNote: noteController.text,
+        tokens:tokens
+     );
+     setBusy(false);
+
 
   }
 
-//To handle the reciept of a  request
+//To handle the receipt of a  request
   void _handleRequestAcceptance() async {
     //TODO create a requisition on fire for this user
     //TODO  show polylines on the map when accepted see sendRequest()

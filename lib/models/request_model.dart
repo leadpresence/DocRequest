@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 class Request{
   String id;
-  Timestamp startAt;
-  Timestamp finishedAt;
+  var startAt;
+  var finishedAt;
   String patientName;
   String patientAddress;
   String patientPhone;
@@ -13,7 +13,7 @@ class Request{
   String doctorPhone;
   int acceptedFlag=0;
 
-  Request({this.startAt,this.finishedAt,
+  Request({this.id,this.startAt,this.finishedAt,
   this.patientName,this.patientAddress,
   this.patientPhone,this.patientNote,this.tokens,
   this.doctorName,
@@ -22,25 +22,26 @@ class Request{
 
   Map<String, dynamic> toMap(){
     return{
-      'id':id,
+      'id':id??'',
       'startAt':startAt,
       'finishedAt':finishedAt,
-      'patientName':patientName,
-      'patientAddress':patientAddress,
-      'patientPhone':patientPhone,
-      'patientNote':patientNote,
+      'patientName':patientName??'',
+      'patientAddress':patientAddress??'',
+      'patientPhone':patientPhone??'',
+      'patientNote':patientNote??'',
       'tokens':tokens??[''],
-      'doctorName':doctorName,
-      'doctorAddress':doctorAddress,
-      'doctorPhone':doctorPhone,
-      'acceptedFlag':acceptedFlag,
+      'doctorName':doctorName??'',
+      'doctorAddress':doctorAddress??'',
+      'doctorPhone':doctorPhone??'',
+      'acceptedFlag':acceptedFlag??'',
 
     };
   }
 
   static Request fromMap(Map<String, dynamic> map){
     return Request(
-        startAt:map['startAt'],
+
+      startAt:map['startAt'],
       finishedAt:map['finishedAt'],
       patientName:map['patientName'],
       patientAddress:map['patientAddress'],

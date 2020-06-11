@@ -184,7 +184,7 @@ class _MDScreen extends State<MDScreen> {
              Container(
 
                decoration: BoxDecoration(
-                 color: Colors.black,
+                 color: Colors.transparent,
 
                  border: Border.all(
                      color: Theme.of(context).primaryColor,
@@ -196,8 +196,11 @@ class _MDScreen extends State<MDScreen> {
                ),
                child: FlatButton(
                  child:
-                 Text('Need A Medic?',style:             			   TextStyle(color:Theme.of(context).scaffoldBackgroundColor,
+                 Text('Need A Medic?',style:
+                 TextStyle(color:Theme.of(context).primaryColor,
                    fontSize: 16.0,
+
+                   fontFamily:'Montserrat_Alternates'
                  ),
                  ),
                  onPressed: ()async{

@@ -48,13 +48,13 @@ class _ProfileState extends State<Profile> {
               appBar: AppBar(
                 title: Text(
 //                  "My Info",
-                  model.userDetails.lastName,
+                  model.lastName,
                   style: TextStyle(color: Colors.black),
                 ),
                 centerTitle: true,
                 leading: IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, DashboardRoute);
+                    Navigator.pushNamed(context, MDservicesRoute);
                   },
                   icon: Icon(
                     Icons.menu,
@@ -107,7 +107,7 @@ class _ProfileState extends State<Profile> {
                                       //TODO Username: "populate dynamically first name and Last name
                                       child: Text(
 
-                                        model.userDetails.firstName==null?"--": model.userDetails.firstName,
+                                        model.firstName??" ",
                                         style: TextStyle(
                                             fontSize: 18,
                                             color: Theme.of(context).primaryColor),
@@ -135,7 +135,7 @@ class _ProfileState extends State<Profile> {
                                               SizedBox(height: 1,),
                                               Row(children: <Widget>[
                                                 Text(
-                                                    model.userDetails.age==null?"--":model.userDetails.age
+                                                    model.age??""
 
                                                 )
 
@@ -157,7 +157,7 @@ class _ProfileState extends State<Profile> {
                                             SizedBox(height: 1,),
                                             Row(children: <Widget>[
                                               Text(
-                                                model.userDetails.bloodGroup==null?"--":model.userDetails.bloodGroup
+                                                model.bloodGroup??" "
 
                                               )
                                             ],)
@@ -178,7 +178,7 @@ class _ProfileState extends State<Profile> {
                                             ],),
                                             Row(children: <Widget>[
                                               Text(
-                                                 model.userDetails.gender==null?"--":model.userDetails.gender
+                                                 model.gender??" "
                                               )
                                             ],)
                                           ],
@@ -206,7 +206,7 @@ class _ProfileState extends State<Profile> {
                                               SizedBox(height: 1,),
                                               Row(children: <Widget>[
                                                 Text(
-                                                    model.userDetails.height==null?"--":model.userDetails.height
+                                                    model.height??" "
 
                                                 )
 
@@ -227,7 +227,7 @@ class _ProfileState extends State<Profile> {
                                             ],),
                                             Row(children: <Widget>[
                                                 Text(
-                                                    model.userDetails.weight==null?"--":model.userDetails.weight
+                                                    model.weight??" "
                                                 )
                                             ],)
                                           ],

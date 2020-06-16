@@ -181,25 +181,30 @@ class AuthenticationService {
   }
 
   //to create a  request on the
-  Future createNewRquest(
-      {String id,
+  Future createNewRequest(
+      {
+      String id,
       String patientName,
       String patientNote,
       String patientAddress,
       String patientPhone,
       List<String> tokens,
-      int acceptedFlag}) async {
+      int acceptedFlag
+      }) async {
     var thisUser = await auth.currentUser();
     try {
       _request = Request(
-          id: thisUser.uid,
+        //TODO change the thisUser.uid to startAt so every request IDed with a  timestamp
+
+      id: thisUser.uid,//change this to timestamp check formatting
           patientName: currentUser.lastName + " " + currentUser.firstName,
           patientAddress: patientAddress,
           patientNote: patientNote,
           patientPhone: currentUser.phone,
           acceptedFlag: 0,
           tokens: tokens,
-          startAt: FieldValue.serverTimestamp());
+          startAt: FieldValue.serverTimestamp());//when request was made
+
       await _firestoreServiceAPI.createRequest(_request, thisUser.uid);
       return;
     } catch (e) {

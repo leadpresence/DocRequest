@@ -6,7 +6,6 @@ import 'package:mobiledoc/dependencies.dart';
 import '../locator.dart';
 import 'navigation_services.dart';
 
-
 class FcmServices {
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   RoutingService _routingService = locator<RoutingService>();
@@ -15,41 +14,24 @@ class FcmServices {
   String _ktoken;
   String get ktoken => _ktoken;
 
-
   void registerNotification() {
     firebaseMessaging.requestNotificationPermissions();
-    firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
-      print('onMessage: $message');
-      AlertDialog(
-        title: Text("New Request"),
-        content: Text("You have a new request\n${message}"),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              "Accept",
-              style: TextStyle(fontSize: 12.0, color: Colors.green),
-            ),
-            onPressed: () => debugPrint("Request Accept"),
-          ),
-          SizedBox(
-            width: 7.0,
-          ),
-          FlatButton(
-            child: Text(
-              "Decline",
-              style: TextStyle(fontSize: 12.0, color: Colors.green),
-            ),
-            onPressed: () => debugPrint("Request Declined"),
-          ),
-        ],
-      );
+    firebaseMessaging.configure(
+
+        onMessage: (Map<String, dynamic> message) {
+          //TODO Alert Dialog goes here
+
 //      Platform.isAndroid ? showNotification(message['notification']) : showNotification(message['aps']['alert']);
       return;
-    }, onResume: (Map<String, dynamic> message) {
+    },
+
+      onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
       serializeNavigate(message);
+      print('onMessage: $message');
       return;
-    }, onLaunch: (Map<String, dynamic> message) {
+    },
+        onLaunch: (Map<String, dynamic> message) {
       print('onLaunch: $message');
       serializeNavigate(message);
 

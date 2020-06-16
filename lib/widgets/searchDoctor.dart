@@ -4,12 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobiledoc/dependencies.dart';
 import 'package:mobiledoc/models/doctorModel.dart';
 import 'package:mobiledoc/widgets_imports.dart';
+import 'package:snack/snack.dart';
 
+
+enum ConfirmAction { CANCEL, ACCEPT }
 class SearchDoc extends StatefulWidget {
   _SearchDoc createState() => _SearchDoc();
 }
 
 class _SearchDoc extends State<SearchDoc> {
+  final bar = SnackBar(content: Text('Request Completed, A Medic will contact you soon.'));
   static String avatar =
       'https://www.rosemaryhomes.com/wp-content/uploads/avatar-placeholder-generic-1-300x300.jpg';
   Icon icon;
@@ -178,15 +182,23 @@ class _SearchDoc extends State<SearchDoc> {
                       SubmitButton(
                         buttonHeight: 40,
                         buttonWidth: 160,
-                        color: btnColor,
+                        color: Theme.of(context).primaryColor,
                         btnTitle: "GO",
                         fontSize: 16,
-                        buttonPressed: () {
-                          appState.locationController.text != null
-                              ? appState.sendRequestToDoctors()
-                              : Fluttertoast.showToast(
-                                  msg: "You need to enter a reachable address",
-                                  toastLength: Toast.LENGTH_LONG);
+                        buttonPressed: () async {
+
+                          if(appState.locationController.text != null)
+                           {
+                             appState.sendRequestToDoctors();
+                             bar.show(context);
+                             print("send request");
+                          }else{
+                            Fluttertoast.showToast(
+                                msg: "You need to enter a reachable address.",
+                                toastLength: Toast.LENGTH_LONG);
+                          }
+
+
                         },
                       )
 //                    Padding(

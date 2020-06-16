@@ -18,17 +18,15 @@ import 'package:mobiledoc/locator.dart';
 import './MDrequests.dart';
 
 class MDAppState extends BaseModel {
-
   FirestoreServiceAPI _firestoreServiceAPI = locator<FirestoreServiceAPI>();
   AuthenticationService _authenticationService =
       locator<AuthenticationService>();
 
   String doctorsLocationField = 'currentLocation';
-  List <String> _tokenDoctorsAround;
-  List <String> get tokenDoctorsAround=>_tokenDoctorsAround;
-  List <String> _message;
-  List <String> get message=>_message;
-
+  List<String> _tokenDoctorsAround;
+  List<String> get tokenDoctorsAround => _tokenDoctorsAround;
+  List<String> _message;
+  List<String> get message => _message;
 
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
@@ -56,7 +54,7 @@ class MDAppState extends BaseModel {
   Position _position = Position();
   Position get position => _position;
   GeoFirePoint _geoFirePoint;
-  GeoFirePoint get geoFirePoint=> _geoFirePoint;
+  GeoFirePoint get geoFirePoint => _geoFirePoint;
   User _user = currentUser;
   //this holds the the doctors called from firebase
   List<Doctor> _doctors;
@@ -84,7 +82,7 @@ class MDAppState extends BaseModel {
   }
 // ! TO GET THE USERS LOCATION
   void _getUserLocation() async {
-    try{
+    try {
       print("GET USER METHOD RUNNING >>>>>>>");
       _position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -103,10 +101,9 @@ class MDAppState extends BaseModel {
       getDoctorsAroundMe();
       radius.add(200.0);
       notifyListeners();
-    }catch(e){
-      debugPrint(">>Error getting User Location:" +e.toString());
+    } catch (e) {
+      debugPrint(">>Error getting User Location:" + e.toString());
     }
-
   }
 
 //  setMessage(List<String> m){
@@ -119,17 +116,18 @@ class MDAppState extends BaseModel {
   //To update client loaction to firestore
   Future setLocation() async {
     try {
-      print("GeoFirePointData "+
-          geoFirePoint.data['geopoint'].latitude.toString()+" "+"\n"+
-          geoFirePoint.data['geopoint'].longitude.toString()+" "+
+      print("GeoFirePointData " +
+          geoFirePoint.data['geopoint'].latitude.toString() +
+          " " +
+          "\n" +
+          geoFirePoint.data['geopoint'].longitude.toString() +
+          " " +
           geoFirePoint.data['geohash'].toString());
       await _firestoreServiceAPI.updateMyLocation(
-              {'currentLocation':
-              geoFirePoint.data},
-              _authenticationService.currentUser.id);
-    } catch (e)
-    {
-      debugPrint("FirestoreAPI Error in setLocation: "+ e.toString());
+          {'currentLocation': geoFirePoint.data},
+          _authenticationService.currentUser.id);
+    } catch (e) {
+      debugPrint("FirestoreAPI Error in setLocation: " + e.toString());
       return e;
     }
   }
@@ -147,57 +145,54 @@ class MDAppState extends BaseModel {
       return _geoFirePoint
           .collection(collectionRef: collectionReference)
           .within(
-              center: center, radius: fun,
-              field: 'currentLocation', strictMode: true);
+              center: center,
+              radius: fun,
+              field: 'currentLocation',
+              strictMode: true);
     });
   }
 
   //TO PLACE MARKERS ON THE MAP SHOWING DOCTORS LOCATION
   void _showSetDoctorsAround(List<DocumentSnapshot> documentList) {
-try{
-  print("marker document List  ${documentList.length}");
-  documentList.forEach((DocumentSnapshot document) {
-    double lat = document.data['currentLocation']['geopoint'].latitude;
-    double long = document.data['currentLocation']['geopoint'].longitude;
-    //Push the individual token into this List and send
-    String _token= document.data['pushToken'];
-    tokenDoctorsAround.add(_token);
-    _markers.add(Marker(
-        markerId: MarkerId(lat.toString()),
+    try {
+      print("marker document List  ${documentList.length}");
+      documentList.forEach((DocumentSnapshot document) {
+        double lat = document.data['currentLocation']['geopoint'].latitude;
+        double long = document.data['currentLocation']['geopoint'].longitude;
+        print("lat :" + lat.toString() + " " + "long :" + long.toString());
+        //Push the individual token into this List and send
+        String _token = document.data['pushToken'];
+        _tokenDoctorsAround.add(_token);
+        _markers.add(Marker(
+            markerId: MarkerId(lat.toString()),
 //        position: LatLng(pos.latitude, pos.longitude),
-        position: LatLng(lat, long),
-        icon: _sourceIcon,
-        infoWindow: InfoWindow(
-            title: 'Doctor Marker', snippet: 'few kilometers from doctor')
-    ));
-  });
-  notifyListeners();
-}catch(e){
-  debugPrint("/>>Error setting doctors markers :"+e.toString());
-}
-
+            position: LatLng(lat, long),
+            icon: _sourceIcon,
+            infoWindow: InfoWindow(
+                title: 'Doctor Marker',
+                snippet: 'few kilometers from doctor')));
+      });
+      notifyListeners();
+    } catch (e) {
+      debugPrint("/>>Error setting doctors markers :" + e.toString());
+    }
   }
-
-
 
   //To send notification to all available doctors within a radius
   //locations from _getCloseDoctors
   void sendRequestToDoctors() async {
-    //TODO handle sending push notifications
-     String patienceName=currentUser.lastName +" "+currentUser.firstName;
-     String patientAddress=locationController.text;
-     String patientPhone=currentUser.phone;
-     List<String> tokens=_tokenDoctorsAround;
-
-         setBusy(true);
-   await  _authenticationService.createNewRquest(
-       patientAddress: patientAddress,patientNote: noteController.text,
-        tokens:tokens
-     );
-     setBusy(false);
-
-
+    String patienceName = currentUser.lastName + " " + currentUser.firstName;
+    String patientAddress = locationController.text;
+    String patientPhone = currentUser.phone;
+    List<String> tokens = _tokenDoctorsAround;
+    setBusy(true);
+    await _authenticationService.createNewRequest(
+        patientAddress: patientAddress,
+        patientNote: noteController.text,
+        tokens: tokens);
+    setBusy(false);
   }
+
 
 //To handle the receipt of a  request
   void _handleRequestAcceptance() async {
@@ -214,6 +209,7 @@ try{
         color: Colors.black));
     notifyListeners();
   }
+
 
   ///this add makers on the given map
   void _addMarker(LatLng location, String address) {
@@ -265,9 +261,7 @@ try{
 
 /*adding to previous value as done in encoding */
     for (var i = 2; i < lList.length; i++) lList[i] += lList[i - 2];
-
     print(lList.toString());
-
     return lList;
   }
 
@@ -296,9 +290,9 @@ try{
   ///To place the component map on the view
   void onCreated(GoogleMapController controller) {
     _mapController = controller;
+    //!To show doctors Bitmap icons on the map
     stream.listen((List<DocumentSnapshot> documentList) {
-      if(documentList!=null)
-      {
+      if (documentList != null) {
         _showSetDoctorsAround(documentList);
       }
     });
@@ -366,8 +360,7 @@ try{
             math.cos(latB) *
             math.sin(longSum2 / 2) *
             math.sin(longSum2 / 2);
-    double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a)
-    );
+    double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
 
     double d = (R * c); // in metres
     double distanceKilometers = d / 1000.round(); // in metres

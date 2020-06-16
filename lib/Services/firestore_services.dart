@@ -49,14 +49,16 @@ class FirestoreServiceAPI {
   }
 
   //To create a ew rquest in the request Sub-collection
-  Future createRequest(Request request,String userId ) async {
+  Future createRequest(Request request,String userId ) async
+
+  {
     try {
       await collectionReference.document(userId)
             .collection('Requests')
             .document(request.id)
             .setData(request.toMap(),merge: true);
     } catch (e) {
-      debugPrint("FirestoreAPI Error in creating request:"+e.toString());
+      debugPrint("FirestoreAPI Error in creating request :"+e.toString());
       return;
     }
   }

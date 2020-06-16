@@ -119,7 +119,7 @@ class AppMenu extends StatelessWidget {
             header,
             _createDrawerItem(icon:Icons.phone_in_talk,text: "Your Requests",onTap: (){}),
             _createDrawerItem(icon:Icons.perm_identity,text: "Your Info",onTap:
-            ()=>_routingService.navigateTo(MyInfoRoute)),
+            (){_routingService.navigateTo(MyInfoRoute);}),
             _createDrawerItem(icon:Icons.payment,text: " Billings",),
             _createDrawerItem(icon:Icons.surround_sound,text: " Emergency",),
             _createDrawerItem(icon:Icons.settings,text: " Settings",),

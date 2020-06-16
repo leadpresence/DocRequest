@@ -10,11 +10,6 @@ import 'package:mobiledoc/widgets_imports.dart';
 import 'package:stacked/stacked.dart';
 
 
-
-
-
-
-
 class MDScreen extends StatefulWidget {
   @override
   _MDScreen createState() => _MDScreen();
@@ -182,14 +177,11 @@ class _MDScreen extends State<MDScreen> {
              left: 50,right: 50,
              child:
              Container(
-
                decoration: BoxDecoration(
                  color: Colors.transparent,
-
                  border: Border.all(
                      color: Theme.of(context).primaryColor,
                      style: BorderStyle.solid),
-
                  borderRadius: BorderRadius.all(
                    Radius.circular(10.0),
                  ),

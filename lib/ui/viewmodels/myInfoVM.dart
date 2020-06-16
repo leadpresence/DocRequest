@@ -12,11 +12,16 @@ class MyInfoVm extends BaseModel{
   String title = 'mobiledoc';
   User _userDetails;
   User get userDetails=> _userDetails;
-
+  String lastName = currentUser.lastName;
+  String firstName = currentUser.firstName;
+  String age = currentUser.age;
+  String gender = currentUser.gender;
+  String height = currentUser.height;
+  String weight = currentUser.weight;
+  String bloodGroup = currentUser.bloodGroup;
 
 
   void initialise() {
-    title = 'My Info';
     notifyListeners();
   }
 

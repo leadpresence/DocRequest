@@ -1,14 +1,14 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:stacked_services/stacked_services.dart';
 import 'package:flutter/services.dart';
-import 'package:mobiledoc/ui/requestDoctorsList.dart';
-import 'package:mobiledoc/ui/requestHospitalList.dart';
-import 'package:mobiledoc/ui/startup/startUp.dart';
-import 'package:mobiledoc/widgets_imports.dart';
+import 'Services/dialog_services.dart';
 import 'Services/fcm_services.dart';
 import 'dependencies.dart';
+import 'managers/dialog_manager.dart';
 import 'ui_import.dart';
 import 'package:provider/provider.dart';
 import 'package:mobiledoc/Services/navigation_services.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +38,13 @@ class Mobiledoc extends StatelessWidget {
       child: MaterialApp(
         title: "MobileDoc",
         debugShowCheckedModeBanner: false,
-        onGenerateRoute: onGenerateRoute,
+
+
+        builder: (context, child) => Navigator(
+            key: locator<DialogService>().dialogNavigationKey,
+          onGenerateRoute: (settings) => MaterialPageRoute(
+              builder: (context) => DialogManager(child: child)),
+        ),
         theme: ThemeData(
             brightness: Brightness.light,
             fontFamily: 'Montserrat_Alternates',
@@ -48,6 +54,7 @@ class Mobiledoc extends StatelessWidget {
         ),
 
         navigatorKey: locator<RoutingService>().navigationKey,
+        onGenerateRoute: onGenerateRoute,
 //        initialRoute: WalkthroughRoute,
         home:WalkThrough(),
       ),

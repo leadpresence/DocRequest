@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobiledoc/Services/authentication_services.dart';
+import 'package:mobiledoc/Services/dialog_services.dart';
 import 'package:mobiledoc/Services/navigation_services.dart';
 import 'package:mobiledoc/dependencies.dart';
 import 'package:mobiledoc/models/doctorModel.dart';
@@ -8,6 +9,7 @@ import 'package:mobiledoc/widgets/payementDialog.dart';
 import 'package:mobiledoc/widgets/searchDoctor.dart';
 import 'package:mobiledoc/widgets_imports.dart';
 import 'package:stacked/stacked.dart';
+//import 'package:stacked_services/stacked_services.dart';
 
 
 class MDScreen extends StatefulWidget {
@@ -19,8 +21,9 @@ class MDScreen extends StatefulWidget {
 class _MDScreen extends State<MDScreen> {
   TextEditingController _destinationController = TextEditingController();
   AuthenticationService _authenticationService=locator<AuthenticationService>();
+  DialogService _dialogService=locator<DialogService>();
   RoutingService _routingService=locator<RoutingService>();
-  final Key _requesScreenkey = UniqueKey();
+  final Key _requestScreenkey = UniqueKey();
   final Key _requesScaffoldkey = UniqueKey();
   List<String> docDeatils=[];
 
@@ -106,7 +109,7 @@ class _MDScreen extends State<MDScreen> {
              ],
            ))
            : Stack(
-         key:_requesScreenkey ,
+         key:_requestScreenkey ,
          children: <Widget>[
            GoogleMap(
              zoomGesturesEnabled: true,
@@ -196,9 +199,15 @@ class _MDScreen extends State<MDScreen> {
                  ),
                  ),
                  onPressed: ()async{
+                   print("test Dialog");
                    try{
-                     debugPrint("pressed request Doctor");
-                     callDoctorSheet();
+//                     debugPrint("pressed request Doctor");
+//                     callDoctorSheet();
+                     await _dialogService.showDialog(
+                       title: ' New Request from Mrs Onyema',
+                       description: 'No 19A Fola osibo Lekki phase \n 09023466623',
+//                       dialogPlatform: DialogPlatform.Cupertino,
+                     );
                    }
                    catch(e){
                      debugPrint("Error request doctor:"+e.toString());

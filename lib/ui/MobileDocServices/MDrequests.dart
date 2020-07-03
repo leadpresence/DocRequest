@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
-const apiKey = "AIzaSyA3whKRHle7Fv6bk4mntyUY6f70CPIFHY8";
+const apiKey = "ADD_YOUR_GOOGLE_KEY";
 var uuid = Uuid();
 String _sessionToken;
 

@@ -1,6 +1,17 @@
 # DocRequest
 Medication As a Service (MaaS) mobile application to book doctors by geoloaction.
-Dependencies: Geolocator, location, Stack,Stack_Services,Get_It , Provider, and more
-#Uber #UberClone #flutterMap #Map
+#Features
+1. Geolocation,
+
+2. Distance between Location
+
+3. Firebase Authentication
+   
+
+4. Stacked( MVVP architecture) with Provider
+
+5. Deep Linking
+
+6. Flutterwave payment gateway
 
 

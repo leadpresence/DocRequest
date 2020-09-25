@@ -1,7 +1,9 @@
 # DocRequest
 Medication As a Service (MaaS) mobile application to book doctors by geoloaction.
+
 #Features
-1. Geolocation,
+
+1. Geolocation 
 
 2. Distance between Location
 
